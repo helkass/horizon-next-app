@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* name of instance */
+@import url("https://fonts.googleapis.com/css2?family=Inspiration&display=swap");
+
+/* global fonts */
+@import url("https://fonts.googleapis.com/css2?family=Merriweather&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
+
+html,
+body {
+  scroll-behavior: smooth;
+  font-family: "Merriweather", serif;
+}
+
+/* slide left right */
+.hover-1 {
+  background: linear-gradient(#fef08a 0 0) var(--p, 0) / var(--p, 0) no-repeat;
+  transition: 0.4s, background-position 0s;
+}
+.hover-1:hover {
+  --p: 100%;
+  color: inherit;
+}
+/* slide on and top */
+.hover-3 {
+  --c: no-repeat linear-gradient(#fef08a 0 0);
+  background: var(--c) calc(-101% + var(--p, 0%)) 100%,
+    var(--c) calc(201% - var(--p, 0%)) 0;
+  background-size: 50.1% var(--p, 0.08em);
+  transition: 0.3s var(--t, 0s),
+    background-position 0.3s calc(0.3s - var(--t, 0s));
+}
+.hover-3:hover {
+  --p: 101%;
+  --t: 0.3s;
+  color: inherit;
+}

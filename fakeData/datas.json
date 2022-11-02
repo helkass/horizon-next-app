@@ -1,0 +1,16 @@
+[
+  {
+    "id": "bijkg435v3454v56",
+    "img": "https://randomuser.me/api/portraits/men/48.jpg",
+    "title": "Dampit biasa",
+    "desc": "Kopi Dampit Malang yang berkualitas premium",
+    "prices": ["7000", "10000"]
+  },
+  {
+    "id": "12",
+    "img": "https://randomuser.me/api/portraits/men/48.jpg",
+    "title": "Dampit biasa",
+    "desc": "Kopi Dampit Malang yang berkualitas premium",
+    "prices": ["7000", "10000"]
+  }
+]
