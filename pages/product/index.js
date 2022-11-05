@@ -111,12 +111,12 @@ function TableProducts(props) {
       <div className="relative grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mx-auto pt-3">
         <div className="relative w-full rounded object-cover shadow-amber-800 shadow-md px-1 py-2 sm:max-h-full max-h-96">
           <Image
-            src={props.img}
+            src={props.img || defaultImage}
             alt="vadin"
             className="object-cover cursor-pointer"
           />
           <div className="px-1 block leading-relaxed font-semibold text-amber-900 m-1">
-            <p>{props.name}</p>
+            <p>{props.name || "unknown"}</p>
             <p className="text-xs font-normal opacity-60 my-2">
               Rp.{props.medium} - Rp.{props.large}
             </p>
@@ -173,13 +173,15 @@ function TableProducts(props) {
                         <div className="w-8/12 mx-auto">
                           <Image src={obj.img || defaultImage} alt={obj.name} />
                         </div>
-                        <p>{obj.name}</p>
-                        <p className="text-sm text-gray-500">{obj.desc}</p>
+                        <p>{obj.name || "unknown"}</p>
+                        <p className="text-sm text-gray-500">
+                          {obj.desc || "unknown"}
+                        </p>
                       </div>
                       <div>
                         <input
                           className="hidden"
-                          value={obj.name}
+                          value={obj.name || "unknown"}
                           id="name"
                           ref={ref}
                           readOnly
@@ -197,13 +199,13 @@ function TableProducts(props) {
                                 id="priceMedium"
                                 ref={pm}
                                 readOnly
-                                value={obj.medium}
+                                value={obj.medium || "unknown"}
                                 className="w-12"
                               />
                             </div>
                             <div className="items-center">
                               <button
-                                type="submit"
+                                onClick={handleMediumMin}
                                 className="p-1 bg-yellow-100 text-amber-500 rounded-md"
                               >
                                 <AiOutlineMinus />

@@ -7,7 +7,7 @@ import {
   AiOutlineUser,
   AiOutlinePoweroff,
 } from "react-icons/ai";
-import { GrGallery } from "react-icons/gr";
+import { GrGallery, GrArticle } from "react-icons/gr";
 // import Cookies from "js-cookie";
 
 const Navbar = () => {
@@ -35,6 +35,12 @@ const Navbar = () => {
           <button className="h-8 hover:border-b border-amber-900 hover:scale-110 flex gap-2 md:pb-3 pb-1">
             <GrGallery size={22} />
             <p className="hidden sm:block">Gallery</p>
+          </button>
+        </Link>
+        <Link href="/admin/blogs">
+          <button className="h-8 hover:border-b border-amber-900 hover:scale-110 flex gap-2 md:pb-3 pb-1">
+            <GrArticle size={22} />
+            <p className="hidden sm:block">Blogs</p>
           </button>
         </Link>
         <Link href="/admin/order">
