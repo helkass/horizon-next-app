@@ -1,12 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  client: { toggleForm: false },
-};
-
 export const ReducerSlice = createSlice({
   name: "horizon-next",
-  initialState,
+  initialState: {
+    client: { toggleForm: false },
+  },
   reducers: {
     toggleChangeAction: (state) => {
       state.client.toggleForm = !state.client.toggleForm;

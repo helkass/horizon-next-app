@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState, Fragment, useEffect, useRef } from "react";
+import { useState, Fragment, useRef } from "react";
 import Navbar from "../../components/Navbar";
 import Container from "../../components/Container";
 import Image from "next/image";
-import { Transition, Dialog } from "@headlessui/react";
+import { Transition, Dialog, Menu } from "@headlessui/react";
+import { Loading } from "../../components/Loading";
+import { getProducts } from "../../libs/products";
+import { SuccessAlert } from "../../components/SuccessAlert";
 
 // fake
-import img from "../../fakeData/img/bottle.png";
 import defaultImage from "../../fakeData/img/defaultImage.jpg";
 
 // icons
@@ -14,22 +16,16 @@ import { BsWhatsapp } from "react-icons/bs";
 import { AiOutlineClose, AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { FaMotorcycle } from "react-icons/fa";
 import Router from "next/router";
-
-// include module to new variable
-const product = [
-  {
-    id: 1,
-    name: "Dampit ice coffee",
-    type: "Dampit biasa",
-    medium: 2000,
-    large: 50000,
-    img: img,
-    desc: "A positive perspective on aging predicts better health and longer life",
-    size: "700ml",
-  },
-];
+import { useQuery } from "react-query";
+import Cart from "../../components/Cart";
+import { add } from "../../redux/cartSlice";
+import { useDispatch } from "react-redux";
 
 export default function Test() {
+  const { isLoading, isError, data, error } = useQuery("products", getProducts);
+
+  if (isLoading) return <Loading />;
+  if (isError) return <div>Galleries Error...!</div>;
   return (
     <>
       <Navbar />
@@ -39,10 +35,15 @@ export default function Test() {
             <p className="text-2xl text-left md:mb-7 font-semibold sm:w-5/12 md:py-2 md:border-b-2 border-amber-900">
               List Products
             </p>
+            {/* cart */}
+            <Cart />
+            {/* end cart */}
           </div>
-          {product.map((obj, i) => (
-            <TableProducts {...obj} key={i} />
-          ))}
+          <div className="relative grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mx-auto pt-3">
+            {data.map((obj, i) => (
+              <TableProducts {...obj} key={i} />
+            ))}
+          </div>
         </Container>
       </main>
     </>
@@ -52,6 +53,7 @@ export default function Test() {
 function TableProducts(props) {
   const [countMedium, setCountMedium] = useState(0);
   const [countLarge, setCountLarge] = useState(0);
+  const dispatch = useDispatch();
 
   const handleMediumMin = (e) => {
     e.preventDefault();
@@ -61,7 +63,6 @@ function TableProducts(props) {
       setCountMedium(countMedium - 1);
     }
   };
-
   // large
   const handleLargeMin = (e) => {
     e.preventDefault();
@@ -76,7 +77,7 @@ function TableProducts(props) {
   const pm = useRef(null);
   const lg = useRef(null);
 
-  function sendProps() {
+  const sendProps = () => {
     const name = ref.current.value;
     const PM = pm.current.value;
     const LG = lg.current.value;
@@ -98,7 +99,7 @@ function TableProducts(props) {
         totalOrder: totalOrder,
       },
     });
-  }
+  };
   const [view, setView] = useState(false);
   const [modalContent, setModalContent] = useState([]);
   const handleClick = (props) => {
@@ -106,27 +107,40 @@ function TableProducts(props) {
     setModalContent([props]);
   };
 
+  const handleAdd = (obj) => {
+    dispatch(add(obj));
+    console.log(obj);
+  };
   return (
     <>
-      <div className="relative grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mx-auto pt-3">
-        <div className="relative w-full rounded object-cover shadow-amber-800 shadow-md px-1 py-2 sm:max-h-full max-h-96">
+      <div className="relative w-full rounded shadow-amber-800 shadow-md px-1 py-2 sm:max-h-full max-h-96">
+        <div className="flex justify-center items-center">
           <Image
             src={props.img || defaultImage}
             alt="vadin"
-            className="object-cover cursor-pointer"
+            width={230}
+            height={230}
+            objectFit="cover"
           />
-          <div className="px-1 block leading-relaxed font-semibold text-amber-900 m-1">
-            <p>{props.name || "unknown"}</p>
-            <p className="text-xs font-normal opacity-60 my-2">
-              Rp.{props.medium} - Rp.{props.large}
-            </p>
-            <button
-              onClick={() => handleClick(props)}
-              className="text-sm opacity-50 bg-gray-200 rounded mt-2 py-1 text-gray-800 text-center w-full"
-            >
-              Quick view
-            </button>
-          </div>
+        </div>
+        <div className="px-1 block leading-relaxed font-semibold text-amber-900 m-1">
+          <p>{props.title || "unknown"}</p>
+          <p className="text-xs font-normal opacity-60 my-2">
+            Rp.{props.medium} - Rp.{props.large}
+          </p>
+          <button
+            onClick={() => handleClick(props)}
+            className="text-sm opacity-50 bg-gray-200 rounded mt-2 py-2 text-gray-800 text-center w-full"
+          >
+            Quick view
+          </button>
+          {/* add cart product */}
+          <button
+            onClick={() => handleAdd(props)}
+            className="text-sm bg-green-100 rounded mt-2 py-2 text-green-800 border border-green-400 text-center w-full"
+          >
+            Add to cart
+          </button>
         </div>
       </div>
       {/* modal content for detailing */}
@@ -171,9 +185,15 @@ function TableProducts(props) {
                     <form key={i}>
                       <div className="mt-4">
                         <div className="w-8/12 mx-auto">
-                          <Image src={obj.img || defaultImage} alt={obj.name} />
+                          <Image
+                            width={300}
+                            height={300}
+                            objectFit="cover"
+                            src={obj.img || defaultImage}
+                            alt={obj.title || "unknown"}
+                          />
                         </div>
-                        <p>{obj.name || "unknown"}</p>
+                        <p>{obj.title || "unknown"}</p>
                         <p className="text-sm text-gray-500">
                           {obj.desc || "unknown"}
                         </p>
@@ -181,7 +201,7 @@ function TableProducts(props) {
                       <div>
                         <input
                           className="hidden"
-                          value={obj.name || "unknown"}
+                          value={obj.title || "unknown"}
                           id="name"
                           ref={ref}
                           readOnly
@@ -237,7 +257,7 @@ function TableProducts(props) {
                               <input
                                 name="priceLarge"
                                 id="priceLarge"
-                                value={obj.large}
+                                value={obj.large || 0}
                                 ref={lg}
                                 readOnly
                                 className="w-12"
@@ -268,21 +288,23 @@ function TableProducts(props) {
                             </div>
                           </div>
                           {/* checkout button */}
-                          <div className="flex justify-evenly">
-                            <a
-                              onClick={() => sendProps()}
-                              className="mt-4 inline-flex gap-2 justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                            >
-                              <BsWhatsapp size={18} />
-                              CheckOut
-                            </a>
-                            <button
-                              type="submit"
-                              className="mt-4 inline-flex gap-2 justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                            >
-                              <FaMotorcycle size={18} />
-                              By Gojek
-                            </button>
+                          <div className="flex-col flex">
+                            <div className="flex justify-evenly">
+                              <a
+                                onClick={() => sendProps()}
+                                className="mt-4 inline-flex gap-2 cursor-pointer justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                              >
+                                <BsWhatsapp size={18} />
+                                Whatsapp
+                              </a>
+                              <button
+                                type="submit"
+                                className="mt-4 inline-flex gap-2 justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                              >
+                                <FaMotorcycle size={18} />
+                                By Gojek
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
