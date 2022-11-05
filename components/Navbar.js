@@ -7,7 +7,7 @@ import { FaBars } from "react-icons/fa";
 const link = [
   { href: "/", label: "Home" },
   { href: "#menu", label: "Menu" },
-  { href: "/gallery", label: "Gallery" },
+  { href: "/galleries", label: "Gallery" },
   { href: "/product", label: "Products" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },

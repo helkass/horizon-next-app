@@ -45,7 +45,7 @@ function TableBody(props) {
     <>
       <div
         onClick={() => handleClick(props)}
-        className="bg-amber-50 rounded-md p-1 tracking-wide mt-3"
+        className="bg-amber-50 rounded-md p-1 tracking-wide mt-3 cursor-pointer hover:scale-105 animate-pulse hover:animate-none"
       >
         <div className="w-full items-center flex justify-center">
           <Image
