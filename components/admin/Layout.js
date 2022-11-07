@@ -5,7 +5,7 @@ export default function Layout({ children }) {
   return (
     <>
       <Header />
-      <div className="flex md:gap-3 gap-1">
+      <div className="flex md:gap-3 space-x-1">
         <Navbar />
         {children}
       </div>

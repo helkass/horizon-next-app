@@ -1,39 +1,32 @@
-import Content from "../../components/admin/Content";
-import Layout from "../../components/admin/Layout";
-import AddProducts from "../../components/admin/AddProducts";
-import UpdateProducts from "../../components/admin/UpdateProducts";
+import Content from "../../../components/admin/Content";
+import Layout from "../../../components/admin/Layout";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-import { Loading } from "../../components/Loading";
+import { Loading } from "../../../components/Loading";
 
-import { getProducts } from "../../libs/products";
+import { getProducts } from "../../../libs/products";
 
 import Image from "next/image";
-import { useState } from "react";
 import { useQuery } from "react-query";
-import { useSelector, useDispatch } from "react-redux";
-import { toggleChangeAction } from "../../redux/reducer";
 
 // fake
-import defaultImage from "../../fakeData/img/defaultImage.jpg";
-// conditional edit & add data
-const flag = true;
+import defaultImage from "../../../fakeData/img/defaultImage.jpg";
+import { useState } from "react";
+import AddProducts from "../../../components/admin/AddProducts";
 
 // show all product from DB
 export default function Products() {
   // state for displaying toggle form data
-  const [visible, setVisible] = useState(false);
-
+  const [addVisible, setAddVisible] = useState(false);
   // adding product
   const handleAdd = (e) => {
     e.preventDefault();
-    setVisible(visible ? false : true);
+    setAddVisible(!addVisible);
   };
 
   // call data from api
   // return all data from response
   const { isLoading, isError, data, error } = useQuery("products", getProducts);
 
-  if (isLoading) return <Loading />;
   if (isError) return <div>Products Error...!</div>;
 
   return (
@@ -48,19 +41,9 @@ export default function Products() {
         >
           Add Product
         </button>
-        {/* conditional between update and add */}
-        {flag ? (
-          visible ? (
-            <AddProducts />
-          ) : (
-            <></>
-          )
-        ) : visible ? (
-          <UpdateProducts />
-        ) : (
-          <></>
-        )}
-        {/* ..................
+        {/* collapse */}
+        {addVisible ? <AddProducts /> : <></>}
+        {/* .................
         ...............
         ............. */}
         {/* head */}
@@ -83,24 +66,18 @@ export default function Products() {
         </div>
         {/* body */}
         <main className="mt-2 gap-3">
-          {data.map((obj, i) => (
-            <TableBody {...obj} key={i} />
-          ))}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            data.map((obj, i) => <TableBody {...obj} key={i} />)
+          )}
         </main>
       </Content>
     </Layout>
   );
 }
 
-function TableBody({ id, title, desc, img, medium, large }) {
-  const visible = useSelector((state) => state.app.client.toggleForm);
-  const dispatch = useDispatch();
-
-  const onUpdate = () => {
-    dispatch(toggleChangeAction());
-    console.log(visible);
-  };
-
+function TableBody({ _id, title, desc, img, medium, large }) {
   return (
     <div className="w-full text-xs sm:text-sm md:text-md max-h-24 rounded flex flex-cols-6 gap-1 mt-1 text-center">
       <div className="bg-amber-100 rounded py-1 w-2/12">
@@ -127,12 +104,12 @@ function TableBody({ id, title, desc, img, medium, large }) {
       </div>
       {/* clicked action*/}
       <div className="bg-amber-100 rounded py-2 px-2 md:gap-3 gap-2 md:w-1/12 text-center justify-center md:flex md:flex-col-1 grid grid-cols-1">
-        <button
-          onClick={onUpdate}
+        <a
+          href={"/admin/products/" + _id.toString()}
           className="rounded-md h-max relative w-max mx-auto md:mx-0"
         >
           <AiFillEdit size={20} color={"#eab308"} />
-        </button>
+        </a>
         <button className=" text-white rounded-md h-max w-max mx-auto md:mx-0">
           <AiFillDelete size={20} color={"#ef4444"} />
         </button>

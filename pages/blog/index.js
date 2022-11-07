@@ -7,6 +7,7 @@ import Footer from "../../components/Footer";
 import Link from "next/link";
 
 const URL = process.env.BASE_URL;
+
 export const getStaticProps = async () => {
   const res = await fetch(`${URL}api/blogs`);
   const data = await res.json();
@@ -57,7 +58,3 @@ export default function Blog({ blogs }) {
     </>
   );
 }
-
-const BlogsBody = ({ blogs }) => {
-  return <div></div>;
-};

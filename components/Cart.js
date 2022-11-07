@@ -1,6 +1,6 @@
 import { Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { BsFillCartFill } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { remove } from "../redux/cartSlice";
@@ -8,6 +8,16 @@ import { remove } from "../redux/cartSlice";
 export default function Cart() {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.cart);
+  const [qty, setQty] = useState(1);
+
+  const handleMinus = (e) => {
+    e.preventDefault();
+    if (qty <= 0) {
+      return null;
+    } else {
+      setQty(qty - 1);
+    }
+  };
 
   const handleRemove = (product) => {
     dispatch(remove(product._id));
@@ -58,25 +68,39 @@ export default function Cart() {
                           </div>
                           <div className="w-full">
                             <div className="flex justify-between">
-                              <p className="text-xl w-max mb-2 bg-yellow-100 rounded-md sm:px-2 px-1">
+                              <p className="md:text-xl w-max mb-2 bg-yellow-100 rounded-md sm:px-2 px-1">
                                 {product.title}
                               </p>
                               <button
                                 onClick={() => handleRemove(product)}
-                                className="bg-red-100 border border-red-400 text-red-700 rounded h-7 w-7"
+                                className="bg-red-100 border border-red-400 text-red-700 rounded md:h-7 md:w-7 w-5 h-5"
                               >
                                 X
                               </button>
                             </div>
-                            <div className="w-full flex justify-between">
-                              <p>medium : Rp.{product.medium}</p>
-                              <p>X2</p>
-                              <p>Rp.20000</p>
-                            </div>
-                            <div className="w-full flex justify-between">
-                              <span>large : Rp.{product.large}</span>
-                              <span>X4</span>
-                              <p>Rp.20000</p>
+                            <div className="flex justify-between">
+                              <div className="flex space-x-2">
+                                <p>size : </p>
+                                <p>{product.size} gr</p>
+                              </div>
+                              <div className="flex space-x-2 items-center">
+                                <button
+                                  className="sm:h-6 w-5 h-5 sm:w-6  text-xl text-center items-center flex justify-center p-2 shadow-md"
+                                  onClick={handleMinus}
+                                >
+                                  -
+                                </button>
+                                <span>{qty}</span>
+                                <button
+                                  className="sm:h-6 w-5 h-5 sm:w-6  text-xl text-center items-center flex justify-center p-2 shadow-md"
+                                  onClick={(e) =>
+                                    setQty(qty + 1) + e.preventDefault()
+                                  }
+                                >
+                                  +
+                                </button>
+                              </div>
+                              <p>Rp.{product.price * qty}</p>
                             </div>
                           </div>
                         </div>

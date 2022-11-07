@@ -37,14 +37,17 @@ export async function addProduct(formData) {
 // UPDATE Product
 export async function updateProduct(productId, formData) {
   const Options = {
-    method: "POST",
+    method: "PUT",
     Headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
   };
-  const res = await fetch(`${BASE_URL}api/products/${productId}`, Options);
-  const data = await res.json();
+  const res = await fetch(
+    `${BASE_URL}api/products/?productId=${productId}`,
+    Options
+  ).then((res) => res.json());
+  // const data = await res.json();
 
-  return data;
+  return res;
 }
 
 // DELETE Product
