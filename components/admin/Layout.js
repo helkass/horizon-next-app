@@ -1,5 +1,6 @@
 import Navbar from "./Navbar";
 import Header from "./Header";
+import Content from "./Content";
 
 export default function Layout({ children }) {
   return (
@@ -7,7 +8,7 @@ export default function Layout({ children }) {
       <Header />
       <div className="flex md:gap-3 space-x-1">
         <Navbar />
-        {children}
+        <Content>{children}</Content>
       </div>
     </>
   );

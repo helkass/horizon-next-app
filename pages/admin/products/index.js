@@ -1,4 +1,3 @@
-import Content from "../../../components/admin/Content";
 import Layout from "../../../components/admin/Layout";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { Loading } from "../../../components/Loading";
@@ -14,6 +13,7 @@ import { useState } from "react";
 import AddProducts from "../../../components/admin/AddProducts";
 
 // show all product from DB
+// cups
 export default function Products() {
   // state for displaying toggle form data
   const [addVisible, setAddVisible] = useState(false);
@@ -31,48 +31,46 @@ export default function Products() {
 
   return (
     <Layout>
-      <Content>
-        <h1 className="text-center w-full my-3 text-lg font-semibold">
-          All Product
-        </h1>
-        <button
-          onClick={handleAdd}
-          className="bg-yellow-200 px-3 py-2 text-yellow-700 rounded-md my-1"
-        >
-          Add Product
-        </button>
-        {/* collapse */}
-        {addVisible ? <AddProducts /> : <></>}
-        {/* .................
+      <h1 className="text-center w-full my-3 text-lg font-semibold">
+        All Product Cups
+      </h1>
+      <button
+        onClick={handleAdd}
+        className="bg-yellow-200 px-3 py-2 text-yellow-700 rounded-md my-1"
+      >
+        Add Product
+      </button>
+      {/* collapse */}
+      {addVisible ? <AddProducts /> : <></>}
+      {/* .................
         ...............
         ............. */}
-        {/* head */}
-        <div className="w-full sm:h-9  rounded flex flex-cols-6 gap-1 font-semibold text-center text-xs sm:text-sm md:text-md">
-          <div className="bg-amber-400 rounded py-1 w-2/12">
-            <p>Image</p>
-          </div>
-          <div className="bg-amber-400 rounded py-1 w-3/12">
-            <p>title</p>
-          </div>
-          <div className="bg-amber-400 rounded py-1 w-4/12">
-            <p>Desc</p>
-          </div>
-          <div className="bg-amber-400 rounded py-1 w-2/12">
-            <p>Prices Rp</p>
-          </div>
-          <div className="bg-amber-400 rounded py-1">
-            <p>Action</p>
-          </div>
+      {/* head */}
+      <div className="w-full sm:h-9  rounded flex flex-cols-6 gap-1 font-semibold text-center text-xs sm:text-sm md:text-md">
+        <div className="bg-amber-400 rounded py-1 w-2/12">
+          <p>Image</p>
         </div>
-        {/* body */}
-        <main className="mt-2 gap-3">
-          {isLoading ? (
-            <Loading />
-          ) : (
-            data.map((obj, i) => <TableBody {...obj} key={i} />)
-          )}
-        </main>
-      </Content>
+        <div className="bg-amber-400 rounded py-1 w-3/12">
+          <p>title</p>
+        </div>
+        <div className="bg-amber-400 rounded py-1 w-4/12">
+          <p>Desc</p>
+        </div>
+        <div className="bg-amber-400 rounded py-1 w-2/12">
+          <p>Prices</p>
+        </div>
+        <div className="bg-amber-400 rounded py-1 sm:px-1 md:px-3">
+          <p>Action</p>
+        </div>
+      </div>
+      {/* body */}
+      <main className="mt-2 gap-3">
+        {isLoading ? (
+          <Loading />
+        ) : (
+          data.map((obj, i) => <TableBody {...obj} key={i} />)
+        )}
+      </main>
     </Layout>
   );
 }

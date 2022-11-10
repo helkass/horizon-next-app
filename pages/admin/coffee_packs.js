@@ -1,4 +1,3 @@
-import Content from "../../components/admin/Content";
 import Layout from "../../components/admin/Layout";
 import AddCoffeePack from "../../components/admin/actions/Coffeepacks/AddCoffeePack";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
@@ -31,71 +30,59 @@ export default function CoffeePacks({ data }) {
     setVisible(visible ? false : true);
   };
 
-  // call data from api
-  // return all data from response
-  //   const { isLoading, isError, data, error } = useQuery(
-  //     "coffeepacks",
-  //     getCoffeePacks
-  //   );
-
-  //   if (isLoading) return <Loading />;
-  //   if (isError) return <div>Products Error...!</div>;
-
   return (
     <Layout>
-      <Content>
-        <h1 className="text-center w-full my-3 text-lg font-semibold">
-          All Coffee Packs
-        </h1>
-        <button
-          onClick={handleAdd}
-          className="bg-yellow-200 px-3 py-1 text-sm text-yellow-700 rounded-md my-1"
-        >
-          Add Coffee
-        </button>
-        {/* conditional between update and add */}
-        {flag ? (
-          visible ? (
-            <AddCoffeePack />
-          ) : (
-            <></>
-          )
-        ) : visible ? (
+      <h1 className="text-center w-full my-3 text-lg font-semibold">
+        All Coffee Packs
+      </h1>
+      <button
+        onClick={handleAdd}
+        className="bg-yellow-200 px-3 py-1 text-sm text-yellow-700 rounded-md my-1"
+      >
+        Add Coffee
+      </button>
+      {/* conditional between update and add */}
+      {flag ? (
+        visible ? (
           <AddCoffeePack />
         ) : (
           <></>
-        )}
-        {/* ..................
+        )
+      ) : visible ? (
+        <AddCoffeePack />
+      ) : (
+        <></>
+      )}
+      {/* ..................
         ...............
         ............. */}
-        {/* head */}
-        <div className="w-full sm:h-9  rounded flex flex-cols-6 gap-1 font-semibold text-center text-xs sm:text-sm md:text-md">
-          <div className="bg-amber-400 rounded py-1 w-2/12">
-            <p>Image</p>
-          </div>
-          <div className="bg-amber-400 rounded py-1 w-3/12">
-            <p>title</p>
-          </div>
-          <div className="bg-amber-400 rounded py-1 w-4/12">
-            <p>Desc</p>
-          </div>
-          <div className="bg-amber-400 rounded py-1 w-1/12">
-            <p>Size</p>
-          </div>
-          <div className="bg-amber-400 rounded py-1 w-2/12">
-            <p>Price Rp</p>
-          </div>
-          <div className="bg-amber-400 rounded py-1 w-1/12">
-            <p>Act</p>
-          </div>
+      {/* head */}
+      <div className="w-full sm:h-9  rounded flex flex-cols-6 gap-1 font-semibold text-center text-xs sm:text-sm md:text-md">
+        <div className="bg-amber-400 rounded py-1 w-2/12">
+          <p>Image</p>
         </div>
-        {/* body */}
-        <main className="mt-2 gap-3">
-          {data?.map((obj, i) => (
-            <TableBody {...obj} key={i} />
-          ))}
-        </main>
-      </Content>
+        <div className="bg-amber-400 rounded py-1 w-3/12">
+          <p>title</p>
+        </div>
+        <div className="bg-amber-400 rounded py-1 w-4/12">
+          <p>Desc</p>
+        </div>
+        <div className="bg-amber-400 rounded py-1 w-1/12">
+          <p>Size</p>
+        </div>
+        <div className="bg-amber-400 rounded py-1 w-2/12">
+          <p>Price Rp</p>
+        </div>
+        <div className="bg-amber-400 rounded py-1 w-1/12">
+          <p>Act</p>
+        </div>
+      </div>
+      {/* body */}
+      <main className="mt-2 gap-3">
+        {data?.map((obj, i) => (
+          <TableBody {...obj} key={i} />
+        ))}
+      </main>
     </Layout>
   );
 }

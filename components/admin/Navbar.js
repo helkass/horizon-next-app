@@ -36,7 +36,7 @@ const links = [
 ];
 const Navbar = () => {
   return (
-    <nav className="md:w-3/12 bg-yellow-400 text-slate-900 mt-4 rounded-r-lg w-12 sm:w-16 h-full flex justify-center text-center">
+    <nav className="md:w-2/12 bg-yellow-400 text-slate-900 mt-4 rounded-r-lg w-12 sm:w-16 h-full flex justify-center text-center">
       <div className="h-4/6 font-semibold text-amber-900 py-5 space-y-14">
         {links.map((link, i) => {
           const Icon = icons[i];
@@ -44,17 +44,17 @@ const Navbar = () => {
             <Link key={i} href={link.href}>
               <button className="h-8 hover:border-b justify-center items-center w-full border-amber-900 hover:scale-110 flex gap-2 md:pb-3 pb-1">
                 <Icon size={22} />
-                <p className="hidden sm:block">{link.label}</p>
+                <p className="hidden md:block">{link.label}</p>
               </button>
             </Link>
           );
         })}
-        <div>
+        <div className="flex justify-center items-center gap-3">
+          <AiOutlinePoweroff size={20} />
           <button
             // onClick={logOut}
-            className="flex justify-center items-center gap-3"
+            className="hidden md:flex"
           >
-            <AiOutlinePoweroff size={20} />
             Log Out
           </button>
         </div>

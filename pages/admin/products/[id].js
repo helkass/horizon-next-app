@@ -56,6 +56,7 @@ const UpdateCup = ({ cup }) => {
   const handleUpdate = (e) => {
     e.preventDefault();
     let items = { title, desc, img, medium, large };
+    // console.log(Object.values(items));
     fetch("http://localhost:3000/api/products/?productId=" + id, {
       method: "PUT",
       headers: {
@@ -64,9 +65,7 @@ const UpdateCup = ({ cup }) => {
       body: JSON.stringify(items),
     }).then((result) => {
       setSuccess(!success);
-      result.json().then((res) => {
-        console.warn(res);
-      });
+      result.json();
     });
   };
   return (

@@ -61,7 +61,7 @@ const DetailBlog = ({ blog }) => {
             />
           </div>
           {/* main content article */}
-          <div className="px-10 mt-2">
+          <div className="px-10 mt-2 text-justify">
             <article>{blog.article}</article>
           </div>
         </div>

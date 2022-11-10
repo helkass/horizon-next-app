@@ -3,6 +3,7 @@ import Image from "next/image";
 import Container from "../../components/Container";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import LinesEllipsis from "react-lines-ellipsis";
 
 import Link from "next/link";
 
@@ -25,32 +26,37 @@ export default function Blog({ blogs }) {
         </div>
       </div>
       <Container>
-        <div className="grid md:grid-cols-3 sm:grid-cols-2 relative md:px-20 gap-2 mb-20 px-3">
+        <div className="flex flex-col relative md:px-20 gap-5 mb-20 px-3 border-l-2 border-yellow-400">
           {blogs &&
             blogs.map((blog) => (
-              <Link
-                key={blog.title}
-                // blog.title.toLowerCase().replace(/ /g, "-")
-                href={"/blog/" + blog._id.toString()}
-              >
-                <div className="cursor-pointer shadow-md shadow-yellow-100 border p-2">
-                  <div className="items-center flex justify-center relative">
-                    <Image
-                      src={blog.img || defaultImage}
-                      height={220}
-                      width={220}
-                      alt={blog.title || "unknown"}
-                      className="w-full object-cover"
-                    />
-                  </div>
-                  <div className="relative sm:pb-5 px-2 py-1">
-                    <p className="font-semibold">{blog.title || "unknown"}</p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      writer : {blog.writer || "unknown"}
-                    </p>
-                  </div>
+              <div key={blog.title} className="blog flex py-12 px-4 p-2">
+                <div className="items-center flex sm:w-5/12 justify-center relative img">
+                  <Image
+                    src={blog.img || defaultImage}
+                    height={240}
+                    width={240}
+                    objectFit="cover"
+                    alt={blog.title || "unknown"}
+                    className="absolute "
+                  />
                 </div>
-              </Link>
+                <div className="relative sm:w-7/12 flex flex-col sm:pb-5 px-2 py-1">
+                  <Link href={"/blog/" + blog._id.toString()}>
+                    <strong className="text-2xl cursor-pointer w-max hover:text-yellow-600">
+                      {blog.title || "unknown"}
+                    </strong>
+                  </Link>
+                  <span className="text-xs text-gray-500 mt-1">
+                    writer : {blog.writer || "unknown"}
+                  </span>
+                  <LinesEllipsis maxLine="4" text={blog.article} />
+                  <Link href={"/blog/" + blog._id.toString()}>
+                    <button className="px-3 py-1 text-sm text-gray-500 border border-yellow-200 mt-6 rounded justify-start hover:border-yellow-400 hover:bg-yellow-50 hover:text-yellow-700 w-max">
+                      Read more
+                    </button>
+                  </Link>
+                </div>
+              </div>
             ))}
         </div>
       </Container>

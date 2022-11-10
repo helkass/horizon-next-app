@@ -38,3 +38,19 @@ body {
   --t: 0.3s;
   color: inherit;
 }
+
+/* blog page */
+.blog:nth-child(2n + 1) {
+  flex-direction: row-reverse;
+}
+
+.img:after {
+  content: "";
+  width: 61%;
+  height: 100%;
+  background-color: #fef08a;
+  position: absolute;
+  top: 20px;
+  transform: translateX(-20px);
+  z-index: -1;
+}

@@ -5,7 +5,11 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      blur: {
+        xs: "0.8px",
+      },
+    },
     fontFamily: {
       txthead: ["Inspiration", "cursive"],
       flower: ["Indie Flower", "cursive"],
