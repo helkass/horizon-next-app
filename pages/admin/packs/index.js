@@ -1,26 +1,25 @@
-import Layout from "../../components/admin/Layout";
-import AddCoffeePack from "../../components/admin/actions/Coffeepacks/AddCoffeePack";
+import Layout from "../../../components/admin/Layout";
+import AddCoffeePack from "../../../components/admin/actions/Coffeepacks/AddCoffeePack";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 
 import Image from "next/image";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { toggleChangeAction } from "../../redux/reducer";
 
 // fake
-import defaultImage from "../../fakeData/img/defaultImage.jpg";
-// conditional edit & add data
-const flag = true;
+import defaultImage from "../../../fakeData/img/defaultImage.jpg";
+
 const URL = process.env.BASE_URL;
-export const getStaticProps = async () => {
-  const res = await fetch(`${URL}api/coffee_packs`).then((res) => res.json());
+export async function getStaticProps() {
+  const res = await fetch(`${URL}api/coffee_packs`);
+  const data = await res.json();
+
   return {
-    props: { data: res },
+    props: { packs: data },
   };
-};
+}
 
 // show all product from DB
-export default function CoffeePacks({ data }) {
+export default function CoffeePacks({ packs }) {
   // state for displaying toggle form data
   const [visible, setVisible] = useState(false);
 
@@ -42,17 +41,7 @@ export default function CoffeePacks({ data }) {
         Add Coffee
       </button>
       {/* conditional between update and add */}
-      {flag ? (
-        visible ? (
-          <AddCoffeePack />
-        ) : (
-          <></>
-        )
-      ) : visible ? (
-        <AddCoffeePack />
-      ) : (
-        <></>
-      )}
+      {visible ? <AddCoffeePack /> : <></>}
       {/* ..................
         ...............
         ............. */}
@@ -79,7 +68,7 @@ export default function CoffeePacks({ data }) {
       </div>
       {/* body */}
       <main className="mt-2 gap-3">
-        {data?.map((obj, i) => (
+        {packs?.map((obj, i) => (
           <TableBody {...obj} key={i} />
         ))}
       </main>
@@ -87,13 +76,9 @@ export default function CoffeePacks({ data }) {
   );
 }
 
-function TableBody({ title, img, desc, price, size }) {
-  const visible = useSelector((state) => state.app.client.toggleForm);
-  const dispatch = useDispatch();
-
+function TableBody({ _id, title, img, desc, price, size }) {
   const onUpdate = () => {
-    dispatch(toggleChangeAction());
-    console.log(visible);
+    console.log();
   };
 
   return (
@@ -124,12 +109,12 @@ function TableBody({ title, img, desc, price, size }) {
       </div>
       {/* clicked action*/}
       <div className="bg-amber-100 rounded py-2 px-2 md:gap-3 gap-2 md:w-1/12 text-center justify-center md:flex md:flex-col-1 grid grid-cols-1">
-        <button
-          onClick={onUpdate}
+        <a
+          href={"/admin/packs/" + _id.toString()}
           className="rounded-md h-max relative w-max mx-auto md:mx-0"
         >
           <AiFillEdit size={20} color={"#eab308"} />
-        </button>
+        </a>
         <button className=" text-white rounded-md h-max w-max mx-auto md:mx-0">
           <AiFillDelete size={20} color={"#ef4444"} />
         </button>

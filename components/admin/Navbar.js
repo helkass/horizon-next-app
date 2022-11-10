@@ -24,7 +24,7 @@ const links = [
     label: "Cups",
   },
   {
-    href: "/admin/coffee_packs",
+    href: "/admin/packs",
     label: "Packs",
   },
   { href: "/admin/galleries", label: "Gallery" },

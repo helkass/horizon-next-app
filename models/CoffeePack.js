@@ -4,12 +4,10 @@ const CoffeePackSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
       maxLength: 60,
     },
     desc: {
       type: String,
-      required: true,
       maxLength: 200,
     },
     img: {
@@ -17,11 +15,9 @@ const CoffeePackSchema = new mongoose.Schema(
     },
     size: {
       type: Number,
-      required: true,
     },
     price: {
       type: Number,
-      required: true,
     },
   },
   { timestamps: true }

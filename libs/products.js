@@ -55,8 +55,8 @@ export async function deleteProduct(productId) {
   const Options = {
     method: "DELETE",
     Headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData),
   };
-  const res = await fetch(`${BASE_URL}api/products`, Options);
+  const res = await fetch(`${BASE_URL}api/products/${productId}`, Options);
   const data = await res.json();
+  return data;
 }

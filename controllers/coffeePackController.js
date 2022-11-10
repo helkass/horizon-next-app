@@ -14,10 +14,10 @@ export async function getCoffeePacks(req, res) {
 
 export async function getCoffeePackById(req, res) {
   try {
-    const { id } = req.query;
+    const { packId } = req.query;
 
-    if (id) {
-      const Coffee = await CoffeePack.findById(id);
+    if (packId) {
+      const Coffee = await CoffeePack.findById(packId);
       return res.status(200).json(Coffee);
     }
   } catch (error) {
@@ -36,5 +36,18 @@ export async function postCoffeePack(req, res) {
     });
   } catch (error) {
     return res.status(404).json(error);
+  }
+}
+// PUT http://localhost:3000/api/pack/id
+export async function putPack(req, res) {
+  try {
+    const { packId } = req.query;
+    const formData = req.body;
+    if (packId && formData) {
+      const pack = await CoffeePack.findByIdAndUpdate(packId, formData);
+      res.status(200).json(pack);
+    }
+  } catch (error) {
+    return res.status(404).json({ error: "error while updating data" });
   }
 }
