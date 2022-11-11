@@ -1,4 +1,4 @@
-import Navbar from "../components/Navbar";
+import Layout from "../components/Layout";
 import { Loading } from "../components/Loading";
 import { getGallerys } from "../libs/gallerys";
 import { Transition, Dialog } from "@headlessui/react";
@@ -20,17 +20,16 @@ export default function Galleries() {
   if (isError) return <div>Galleries Error...!</div>;
 
   return (
-    <>
-      <Navbar />
+    <Layout>
       <div className="flex justify-center items-center pt-20 text-4xl bg-yellow-50 bg-opacity-60 h-56 font-flower">
         Galleries
       </div>
-      <main className="grid md:grid-cols-4 max-h-36 grid-cols-2 sm:grid-cols-3 gap-2 pt-9 sm:px-12 px-4">
+      <main className="grid md:grid-cols-4 grid-cols-2 sm:grid-cols-3 gap-2 my-9 sm:px-12 px-4">
         {data.map((obj, i) => (
           <TableBody {...obj} key={i} />
         ))}
       </main>
-    </>
+    </Layout>
   );
 }
 // { id, title, img, desc, writer } = props == destruct

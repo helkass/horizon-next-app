@@ -23,3 +23,13 @@ export async function addCoffeePack(formData) {
     return error;
   }
 }
+
+export async function deleteCoffeePack(packId) {
+  const Options = {
+    method: "DELETE",
+    Headers: { "Content-Type": "application/json" },
+  };
+  const res = await fetch(`${BASE_URL}api/coffee_packs/${packId}`, Options);
+  const data = await res.json();
+  return data;
+}

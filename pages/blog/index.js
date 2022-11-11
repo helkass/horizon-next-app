@@ -30,15 +30,17 @@ export default function Blog({ blogs }) {
           {blogs &&
             blogs.map((blog) => (
               <div key={blog.title} className="blog flex py-12 px-4 p-2">
-                <div className="items-center flex sm:w-5/12 justify-center relative img">
-                  <Image
-                    src={blog.img || defaultImage}
-                    height={240}
-                    width={240}
-                    objectFit="cover"
-                    alt={blog.title || "unknown"}
-                    className="absolute "
-                  />
+                <div className="items-center justify-center relative flex sm:w-5/12">
+                  <div className="img relative">
+                    <Image
+                      src={blog.img || defaultImage}
+                      height={230}
+                      width={230}
+                      objectFit="cover"
+                      alt={blog.title || "unknown"}
+                      className="absolute "
+                    />
+                  </div>
                 </div>
                 <div className="relative sm:w-7/12 flex flex-col sm:pb-5 px-2 py-1">
                   <Link href={"/blog/" + blog._id.toString()}>

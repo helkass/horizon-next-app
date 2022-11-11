@@ -48,11 +48,10 @@ export async function updateGallery(galleryId, formData) {
 }
 
 // DELETE Product
-export async function deleteProduct(galleryId) {
+export async function deleteGallery(galleryId) {
   const Options = {
     method: "DELETE",
     Headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData),
   };
   const res = await fetch(`${BASE_URL}api/galleries`, Options);
   const data = await res.json();

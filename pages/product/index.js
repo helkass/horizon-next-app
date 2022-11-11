@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useState, Fragment, useRef } from "react";
-import Navbar from "../../components/Navbar";
+import Loading from "../../components/Loading";
+import Layout from "../../components/Layout";
 import Container from "../../components/Container";
 import Image from "next/image";
 import { Transition, Dialog } from "@headlessui/react";
@@ -28,14 +29,10 @@ export const getStaticProps = async () => {
   };
 };
 export default function Test({ packs }) {
-  const { data } = useQuery("products", getProducts);
-
-  // if (isLoading) return <Loading />;
-  // if (isError) return <div>Galleries Error...!</div>;
+  const { data, isLoading } = useQuery("products", getProducts);
 
   return (
-    <>
-      <Navbar />
+    <Layout>
       <main className="sm:pt-20 pt-14">
         <Container>
           <div className="flex w-full justify-between text-amber-900 pb-2 md:pb-0 items-center border-b-2 border-amber-900 md:border-none">
@@ -47,9 +44,11 @@ export default function Test({ packs }) {
             {/* end cart */}
           </div>
           <div className="relative grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mx-auto pt-3">
-            {data?.map((obj, i) => (
-              <BottleCups {...obj} key={i} />
-            ))}
+            {isLoading ? (
+              <Loading />
+            ) : (
+              data?.map((obj, i) => <BottleCups {...obj} key={i} />)
+            )}
           </div>
           <br />
           <br />
@@ -65,7 +64,7 @@ export default function Test({ packs }) {
           </div>
         </Container>
       </main>
-    </>
+    </Layout>
   );
 }
 
