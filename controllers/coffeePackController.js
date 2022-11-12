@@ -3,10 +3,10 @@ import CoffeePack from "../models/CoffeePack";
 // GET all data
 export async function getCoffeePacks(req, res) {
   try {
-    const CoffeePacks = await CoffeePack.find({});
+    const pack = await CoffeePack.find({});
 
-    if (!CoffeePacks) return res.status(404).json({ error: "Data not found!" });
-    res.status(200).json(CoffeePacks);
+    if (!pack) return res.status(404).json({ error: "Data not found!" });
+    res.status(200).json(pack);
   } catch (error) {
     res.status(404).json({ error: "Error While Fetching Data!" });
   }
@@ -49,5 +49,19 @@ export async function putPack(req, res) {
     }
   } catch (error) {
     return res.status(404).json({ error: "error while updating data" });
+  }
+}
+
+// DELETE http://localhost:3000/api/products
+export async function deletePack(req, res) {
+  try {
+    const { packId } = req.query;
+
+    if (packId) {
+      const pack = await CoffeePack.findByIdAndDelete(packId);
+      return res.status(200).json(pack);
+    }
+  } catch (error) {
+    res.status(404).json({ error: "Error Deteleting The Product" });
   }
 }

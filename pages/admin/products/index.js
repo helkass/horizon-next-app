@@ -4,6 +4,7 @@ import { Loading } from "../../../components/Loading";
 import { Bug } from "../../../components/Bug";
 import { deleteAction } from "../../../redux/reducer";
 import { deleteProduct, getProducts } from "../../../libs/products";
+import DeleteComponent from "../../../components/admin/actions/DeleteComponent";
 
 import Image from "next/image";
 import { useQuery } from "react-query";
@@ -140,27 +141,5 @@ function TableBody({ _id, title, desc, img, medium, large }) {
         </div>
       </div>
     </>
-  );
-}
-
-function DeleteComponent({ deleteHandler, cancelHandler }) {
-  return (
-    <div className="w-3/12 border-2 gap-3 z-20 bg-red-200 bg-opacity-60 text-red-700 absolute -translate-x-3/4 right-1/4 border-red-600 flex flex-col rounded py-4 justify-center items-center">
-      <p>Confirm delete?</p>
-      <div className="space-x-4">
-        <button
-          onClick={cancelHandler}
-          className="bg-green-200 text-green-600 px-2 py-1 rounded"
-        >
-          No
-        </button>
-        <button
-          onClick={deleteHandler}
-          className="bg-red-300 px-2 py-1 rounded"
-        >
-          Yes
-        </button>
-      </div>
-    </div>
   );
 }

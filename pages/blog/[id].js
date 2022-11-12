@@ -33,13 +33,8 @@ const DetailBlog = ({ blog }) => {
   return (
     <>
       <Navbar />
-      <div className="w-full h-48 flex items-center justify-center bg-yellow-200 bg-opacity-50 text-center">
-        <div className="sm:text-3xl md:text-4xl text-yellow-900 text-2xl font-flower">
-          Tulisan kami
-        </div>
-      </div>
       <Container>
-        <div className="md:px-20 mb-20">
+        <div className="md:px-20 my-20">
           {/* header */}
           <header className="text-center items-center my-6 space-x-2">
             {/* time published */}
@@ -54,16 +49,17 @@ const DetailBlog = ({ blog }) => {
             <Image
               src={blog.img || defaultImage}
               alt={blog.title}
-              height={200}
+              height={300}
               width={450}
               layout="responsive"
               objectFit="cover"
             />
           </div>
           {/* main content article */}
-          <div className="px-10 mt-2 text-justify">
-            <article>{blog.article}</article>
-          </div>
+          <div
+            className="md:px-10 px-2 mt-2"
+            dangerouslySetInnerHTML={{ __html: blog.article }}
+          />
         </div>
       </Container>
       <Footer />

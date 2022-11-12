@@ -3,17 +3,12 @@ import axios from "axios";
 import { useState } from "react";
 import { BiPlus } from "react-icons/bi";
 
-// hook mutation you can delete create update data
-import { useQueryClient } from "react-query";
-import { getCoffeePacks } from "../../../../libs/coffeePacks";
-
 // show all product from DB
-const AddCoffeePack = () => {
+const AddBlog = () => {
   // declare
   const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
-  const [price, setPrice] = useState(0);
-  const [size, setSize] = useState(0);
+  const [article, setArticle] = useState("");
+  const [writer, setWriter] = useState("");
   const [img, setImg] = useState("");
 
   // handle convert it in base64
@@ -31,25 +26,20 @@ const AddCoffeePack = () => {
     };
   };
 
-  const queryClient = useQueryClient();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/coffee_packs", {
+      await axios.post("/api/blogs", {
         title,
-        desc,
+        article,
+        writer,
         img,
-        size,
-        price,
       });
 
-      queryClient.prefetchQuery("Coffee_packs", getCoffeePacks);
       setTitle("");
-      setDesc("");
+      setArticle("");
       setImg("");
-      setSize(0);
-      setPrice(0);
+      setWriter("");
     } catch (error) {
       console.log(error);
     }
@@ -68,36 +58,14 @@ const AddCoffeePack = () => {
         />
       </div>
       <div>
-        <input
-          className="placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-yellow-500 focus:ring-yellow-500 focus:ring-1 sm:text-sm"
-          placeholder="price"
-          type="text"
-          name="price"
-          value={price}
-          id="price"
-          onChange={(e) => setPrice(e.target.value)}
-        />
-      </div>
-      <div>
-        <input
-          className="placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-yellow-500 focus:ring-yellow-500 focus:ring-1 sm:text-sm"
-          placeholder="size"
-          type="number"
-          name="size"
-          value={size}
-          id="size"
-          onChange={(e) => setSize(e.target.value)}
-        />
-      </div>
-      <div>
         <textarea
           className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-yellow-500 focus:ring-yellow-500 focus:ring-1 sm:text-sm"
           placeholder="description"
           type="text"
-          name="desc"
-          value={desc}
-          id="desc"
-          onChange={(e) => setDesc(e.target.value)}
+          name="article"
+          value={article}
+          id="article"
+          onChange={(e) => setArticle(e.target.value)}
         />
       </div>
       <label className="block">
@@ -112,17 +80,13 @@ const AddCoffeePack = () => {
         onClick={handleSubmit}
         className="bg-green-300 mt-3 flex items-center hover:bg-green-500 px-4 py-1 rounded-md text-green-700 w-max"
       >
-        Add Coffee
+        Add Article
         <span>
           <BiPlus className="px-1" size={24} />
         </span>
       </button>
-      <p className="opacity-70 text-gray-500">
-        Note: If you input product again please click Add Coffee pack
-        <span className="text-yellow-600"> yellow button</span>
-      </p>
     </form>
   );
 };
 
-export default AddCoffeePack;
+export default AddBlog;

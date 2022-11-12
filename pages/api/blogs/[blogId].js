@@ -1,5 +1,5 @@
 import db from "../../../utils/db";
-import { getBlogById } from "../../../controllers/blogs";
+import { getBlogById, deleteBlog } from "../../../controllers/blogs";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -10,6 +10,9 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       getBlogById(req, res);
+      break;
+    case "DELETE":
+      deleteBlog(req, res);
       break;
     default:
       res.status(405).end();

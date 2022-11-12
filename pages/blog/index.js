@@ -26,11 +26,11 @@ export default function Blog({ blogs }) {
         </div>
       </div>
       <Container>
-        <div className="flex flex-col relative md:px-20 gap-5 mb-20 px-3 border-l-2 border-yellow-400">
+        <div className="flex flex-col relative md:px-20 gap-1 mb-20 px-3 border-l-2 border-yellow-400">
           {blogs &&
-            blogs.map((blog) => (
-              <div key={blog.title} className="blog flex py-12 px-4 p-2">
-                <div className="items-center justify-center relative flex sm:w-5/12">
+            blogs.map((blog, i) => (
+              <div key={i} className="blog flex py-12 px-4 p-2">
+                <div className="items-center justify-center relative flex w-5/12">
                   <div className="img relative">
                     <Image
                       src={blog.img || defaultImage}
@@ -42,7 +42,7 @@ export default function Blog({ blogs }) {
                     />
                   </div>
                 </div>
-                <div className="relative sm:w-7/12 flex flex-col sm:pb-5 px-2 py-1">
+                <div className="relative w-7/12 flex flex-col sm:pb-5 px-2 py-1">
                   <Link href={"/blog/" + blog._id.toString()}>
                     <strong className="text-2xl cursor-pointer w-max hover:text-yellow-600">
                       {blog.title || "unknown"}
@@ -51,7 +51,6 @@ export default function Blog({ blogs }) {
                   <span className="text-xs text-gray-500 mt-1">
                     writer : {blog.writer || "unknown"}
                   </span>
-                  <LinesEllipsis maxLine="4" text={blog.article} />
                   <Link href={"/blog/" + blog._id.toString()}>
                     <button className="px-3 py-1 text-sm text-gray-500 border border-yellow-200 mt-6 rounded justify-start hover:border-yellow-400 hover:bg-yellow-50 hover:text-yellow-700 w-max">
                       Read more

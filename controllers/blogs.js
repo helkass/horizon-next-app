@@ -14,11 +14,11 @@ export async function getBlogs(req, res) {
 
 export async function getBlogById(req, res) {
   try {
-    const { id } = req.query;
+    const { blogId } = req.query;
 
-    if (id) {
-      const product = await Blog.findById(id);
-      return res.status(200).json(product);
+    if (blogId) {
+      const blog = await Blog.findById(blogId);
+      return res.status(200).json(blog);
     }
   } catch (error) {
     res.status(404).json({ error: "Error while Fetching Product...!" });
@@ -36,5 +36,19 @@ export async function postBlog(req, res) {
     });
   } catch (error) {
     return res.status(404).json(error);
+  }
+}
+
+// DELETE http://localhost:3000/api/blogs
+export async function deleteBlog(req, res) {
+  try {
+    const { blogId } = req.query;
+
+    if (blogId) {
+      const blog = await Blog.findByIdAndDelete(blogId);
+      return res.status(200).json(blog);
+    }
+  } catch (error) {
+    res.status(404).json({ error: "Error Deteleting The Product" });
   }
 }

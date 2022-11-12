@@ -1,6 +1,14 @@
 import db from "../../../utils/db";
-import { getBlogs, postBlog } from "../../../controllers/blogs";
+import { getBlogs, postBlog, deleteBlog } from "../../../controllers/blogs";
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "4mb", // Set desired value here
+    },
+    responseLimit: false,
+  },
+};
 export default async function handler(req, res) {
   const { method } = req;
 
@@ -13,6 +21,9 @@ export default async function handler(req, res) {
       break;
     case "POST":
       postBlog(req, res);
+      break;
+    case "DELETE":
+      deleteBlog(req, res);
       break;
     default:
       res.status(405).end();

@@ -24,6 +24,7 @@
     "react-icons": "^4.6.0",
     "react-lines-ellipsis": "^0.15.3",
     "react-query": "^3.39.2",
+    "react-quill": "^2.0.0",
     "react-redux": "^8.0.4",
     "react-toastify": "^9.0.8"
   },

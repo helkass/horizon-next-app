@@ -47,13 +47,13 @@ export async function updateGallery(galleryId, formData) {
   return data;
 }
 
-// DELETE Product
+// DELETE gallery bg id
 export async function deleteGallery(galleryId) {
   const Options = {
     method: "DELETE",
     Headers: { "Content-Type": "application/json" },
   };
-  const res = await fetch(`${BASE_URL}api/galleries`, Options);
+  const res = await fetch(`${BASE_URL}api/galleries/${galleryId}`, Options);
   const data = await res.json();
 
   return data;

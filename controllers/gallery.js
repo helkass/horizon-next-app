@@ -62,7 +62,7 @@ export async function deleteGallery(req, res) {
     const { galleryId } = req.query;
 
     if (galleryId) {
-      const gallery = await Product.findByIdAndDelete(galleryId);
+      const gallery = await Gallery.findByIdAndDelete(galleryId);
       return res.status(200).json(gallery);
     }
   } catch (error) {

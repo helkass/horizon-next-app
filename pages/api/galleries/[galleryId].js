@@ -1,9 +1,9 @@
 import db from "../../../utils/db";
 import {
-  getCoffeePacks,
-  postCoffeePack,
-  deletePack,
-} from "../../../controllers/coffeePackController";
+  deleteGallery,
+  postGallery,
+  putGallery,
+} from "../../../controllers/gallery";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -12,17 +12,17 @@ export default async function handler(req, res) {
   db.connect();
 
   switch (method) {
-    case "GET":
-      getCoffeePacks(req, res);
-      break;
     case "POST":
-      postCoffeePack(req, res);
+      postGallery(req, res);
+      break;
+    case "PUT":
+      putGallery(req, res);
       break;
     case "DELETE":
-      deletePack(req, res);
+      deleteGallery(req, res);
       break;
     default:
-      res.setHeader("Allow", ["GET", "POST"]);
+      res.setHeader("Allow", ["POST", "PUT", "DELETE"]);
       res.status(405).end();
   }
 }
