@@ -1,33 +1,18 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import Container from "../../components/Container";
+import Container from "../components/Container";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import axios from "axios";
-import { useRouter } from "next/router";
+import { useLogin } from "../context/useLogin";
 
 export default function AdminLogin() {
-  const router = useRouter();
-  const formReducer = (state, event) => {
-    return {
-      ...state,
-      [event.target.name]: event.target.value,
-    };
-  };
-
+  const { login } = useLogin();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  //   const handleSubmit = async () => {
-  //     try {
-  //       await axios.post("http://localhost:3000/api/login", {
-  //         email,
-  //         password,
-  //       });
-  //       router.push("/admin");
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login(email, password);
+  };
   return (
     <div className="relative w-full h-screen leading-relaxed tracking-wider font-semibold text-amber-900">
       <Container>
@@ -42,13 +27,13 @@ export default function AdminLogin() {
           </button>
         </Link>
         <div className="mx-auto bg-yellow-50 bg-opacity-50 text-left md:w-4/12 sm:w-9/12 w-11/12 md:mt-12 mt-36 rounded-md p-12">
-          <form action="/api/admin" method="post">
+          <form onSubmit={handleSubmit}>
             <label htmlFor="email" name="email" className="my-4">
               email
             </label>
             <input
               name="email"
-              type="text"
+              type="email"
               required
               onChange={(e) => setEmail(e.target.value)}
               // value={email}

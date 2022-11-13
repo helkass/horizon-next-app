@@ -1,11 +1,9 @@
 import Head from "next/head";
 import Features from "../components/Features";
-import Footer from "../components/Footer";
 import Gallery from "../components/Gallery";
 // import Image from "next/image";
 import Hero from "../components/Hero";
 import Layout from "../components/Layout";
-import Navbar from "../components/Navbar";
 import Reviews from "../components/Reviews";
 
 export default function Home() {

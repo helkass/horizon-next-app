@@ -7,7 +7,8 @@ import {
 import { GrGallery, GrArticle } from "react-icons/gr";
 import { TbCup } from "react-icons/tb";
 import { RiRedPacketLine } from "react-icons/ri";
-// import Cookies from "js-cookie";
+import { useLogout } from "../../context/useLogout";
+import { useRouter } from "next/router";
 
 const icons = [
   AiOutlineHome,
@@ -35,6 +36,12 @@ const links = [
   },
 ];
 const Navbar = () => {
+  const { logout } = useLogout();
+  const router = useRouter();
+  const handleLogOut = () => {
+    logout();
+    router.push("/admin/login");
+  };
   return (
     <nav className="md:w-2/12 bg-yellow-400 text-slate-900 mt-4 rounded-r-lg w-12 sm:w-16 h-full flex justify-center text-center">
       <div className="h-4/6 font-semibold text-amber-900 py-5 space-y-14">
@@ -49,15 +56,13 @@ const Navbar = () => {
             </Link>
           );
         })}
-        <div className="flex justify-center items-center gap-3">
+        <button
+          onClick={handleLogOut}
+          className="flex justify-center items-center gap-3"
+        >
           <AiOutlinePoweroff size={20} />
-          <button
-            // onClick={logOut}
-            className="hidden md:flex"
-          >
-            Log Out
-          </button>
-        </div>
+          <span className="hidden md:flex">Log Out</span>
+        </button>
       </div>
     </nav>
   );
