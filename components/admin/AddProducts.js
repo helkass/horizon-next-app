@@ -43,6 +43,7 @@ const AddProducts = () => {
         large,
         img,
       });
+      console.log(product);
 
       queryClient.prefetchQuery("products", getProducts);
       setTitle("");

@@ -2,19 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import defaultImage from "../../fakeData/img/defaultImage.jpg";
 import { useAuthContext } from "../../context/useAuthContext";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 const Header = () => {
-  const router = useRouter();
   const { admin } = useAuthContext();
-  // useEffect(() => {
-  //   if (admin === null) {
-  //     router.push("/login");
-  //   }
-  // }, [admin, router]);
   return (
-    <header className="bg-amber-300 w-full">
+    <header className="bg-amber-300 w-screen">
       <div className="flex font-medium justify-between w-full items-center md:py-4 py-2 md:px-7 px-4">
         <Link href="/">
           <h1 className="md:text-2xl text-2xl font-txthead cursor-pointer">

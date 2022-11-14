@@ -1,18 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Container from "../components/Container";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useLogin } from "../context/useLogin";
+import { useRouter } from "next/router";
+import { getCookie } from "cookies-next";
 
 export default function AdminLogin() {
   const { login } = useLogin();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const router = useRouter();
+  const cookie = getCookie("admin");
   const handleSubmit = async (e) => {
     e.preventDefault();
     await login(email, password);
   };
+
+  useEffect(() => {
+    if (cookie !== undefined) {
+      router.push("/admin");
+    }
+  });
   return (
     <div className="relative w-full h-screen leading-relaxed tracking-wider font-semibold text-amber-900">
       <Container>

@@ -1,14 +1,6 @@
 import db from "../../../utils/db";
 import { getBlogs, postBlog, deleteBlog } from "../../../controllers/blogs";
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "4mb", // Set desired value here
-    },
-    responseLimit: false,
-  },
-};
 export default async function handler(req, res) {
   const { method } = req;
 

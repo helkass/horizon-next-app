@@ -20,8 +20,8 @@ export const AuthContextProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    // const admin = JSON.parse(localStorage.getItem("admin"));
-    const admin = getCookie("admin");
+    const admin = JSON.parse(localStorage.getItem("admin"));
+    // const admin = getCookie("admin");
 
     if (admin) {
       dispatch({ type: "LOGIN", payload: admin });

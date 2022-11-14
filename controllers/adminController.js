@@ -47,7 +47,7 @@ export async function loginHandler(req, res) {
 
     if (admin.password === password) {
       const token = createToken(admin._id);
-      setCookie("admin", token);
+      setCookie("admin", token.toString());
       res.status(200).json({ email, token });
     }
   } catch (error) {

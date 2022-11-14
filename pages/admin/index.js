@@ -3,6 +3,9 @@ import { MdOutlineArticle } from "react-icons/md";
 import { BsImage } from "react-icons/bs";
 import { TbCup } from "react-icons/tb";
 import { RiRedPacketLine } from "react-icons/ri";
+import { useEffect } from "react";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 const icons = [TbCup, RiRedPacketLine, BsImage, MdOutlineArticle];
 
@@ -24,7 +27,6 @@ const datas = [
     total: 4,
   },
 ];
-
 function Card() {
   return datas.map((data, index) => {
     const Icons = icons[index];
@@ -72,6 +74,13 @@ function HistoryTable() {
 }
 
 export default function Dashboard() {
+  const cookie = getCookie("admin");
+  const router = useRouter();
+  useEffect(() => {
+    if (cookie == undefined) {
+      router.push("/login");
+    }
+  });
   return (
     <Layout>
       <div className="flex flex-col w-full">

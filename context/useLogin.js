@@ -13,13 +13,13 @@ export const useLogin = () => {
       },
       body: JSON.stringify({ email, password }),
     });
-    // const json = await admin.json();
+    const data = await admin.json();
     if (admin.ok) {
       // save the admin in local storage
-      // localStorage.setItem("admin", JSON.stringify(json));
-      setCookie("admin", JSON.stringify(admin));
+      localStorage.setItem("admin", JSON.stringify(data));
+      setCookie("admin", JSON.stringify(data));
       // update the auth context
-      dispatch({ type: "LOGIN", payload: admin });
+      dispatch({ type: "LOGIN", payload: data });
       router.push("/admin");
     }
   };
