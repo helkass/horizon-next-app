@@ -6,9 +6,10 @@ import { useState } from "react";
 import { BiPlus } from "react-icons/bi";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import defaultImage from "../../../fakeData/img/defaultImage.jpg";
-import ReactQuill from "react-quill";
+import dynamic from "next/dynamic";
+// import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 // show all product from DB
 const AddBlog = () => {
   // declare
@@ -57,22 +58,24 @@ const AddBlog = () => {
         </div>
         <form className="flex flex-col gap-4 my-3 w-11/12">
           {/* photo */}
-          <div className="md:w-5/12 sm:w-6/12 w-8/12 gap-2 flex flex-col">
+          <div className="w-10/12 mx-auto md:mx-0 gap-2 flex flex-col md:w-full">
+            <div className="mx-auto">
+              <Image
+                src={img || defaultImage}
+                alt="preview"
+                // width={400}
+                height={400}
+                objectFit="cover"
+              />
+            </div>
             <label className="block">
               <input
                 type="file"
                 name="img"
                 onChange={handleImage}
-                className="block text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-600 hover:file:bg-violet-100"
+                className="block text-sm cursor-pointer text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-600 hover:file:bg-violet-100"
               />
             </label>
-            <Image
-              src={img || defaultImage}
-              alt="preview"
-              width={400}
-              height={200}
-              objectFit="cover"
-            />
           </div>
           {/* title */}
           <div className="flex items-center gap-1">

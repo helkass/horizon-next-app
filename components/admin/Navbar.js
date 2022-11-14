@@ -40,7 +40,7 @@ const Navbar = () => {
   const router = useRouter();
   const handleLogOut = () => {
     logout();
-    router.push("/admin/login");
+    router.push("/login");
   };
   return (
     <nav className="md:w-2/12 bg-yellow-400 text-slate-900 mt-4 rounded-r-lg w-12 sm:w-16 h-full flex justify-center text-center">

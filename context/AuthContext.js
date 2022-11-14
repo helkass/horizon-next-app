@@ -1,4 +1,5 @@
 import { createContext, useReducer, useEffect } from "react";
+import { getCookie } from "cookies-next";
 
 export const AuthContext = createContext();
 
@@ -19,13 +20,13 @@ export const AuthContextProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const admin = JSON.parse(localStorage.getItem("admin"));
+    // const admin = JSON.parse(localStorage.getItem("admin"));
+    const admin = getCookie("admin");
 
     if (admin) {
       dispatch({ type: "LOGIN", payload: admin });
     }
   }, []);
-  console.log("authContext", state);
 
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>

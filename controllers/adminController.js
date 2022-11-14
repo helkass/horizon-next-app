@@ -1,5 +1,6 @@
 import Admin from "../models/Admin";
 const jwt = require("jsonwebtoken");
+import { setCookie } from "cookies-next";
 const SECRET = process.env.SECRET;
 const createToken = (_id) => {
   return jwt.sign({ _id }, SECRET, { expiresIn: "2d" });
@@ -46,6 +47,7 @@ export async function loginHandler(req, res) {
 
     if (admin.password === password) {
       const token = createToken(admin._id);
+      setCookie("admin", token);
       res.status(200).json({ email, token });
     }
   } catch (error) {
