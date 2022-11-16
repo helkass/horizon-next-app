@@ -21,14 +21,16 @@ export default function Galleries() {
 
   return (
     <Layout>
-      <div className="flex justify-center items-center pt-20 text-4xl bg-yellow-50 bg-opacity-60 h-56 font-flower">
-        Galleries
-      </div>
-      <main className="grid md:grid-cols-4 grid-cols-2 sm:grid-cols-3 gap-2 my-9 sm:px-12 px-4">
-        {data.map((obj, i) => (
-          <TableBody {...obj} key={i} />
-        ))}
-      </main>
+      <section className="min-h-[768px] bg-yellow-50 bg-opacity-50">
+        <div className="flex justify-center items-center pt-20 text-4xl h-32 font-flower">
+          Galleries
+        </div>
+        <main className="grid md:grid-cols-4 grid-cols-2 sm:grid-cols-3 gap-2 my-9 sm:px-12 px-4">
+          {data.map((obj, i) => (
+            <TableBody {...obj} key={i} />
+          ))}
+        </main>
+      </section>
     </Layout>
   );
 }
@@ -44,15 +46,15 @@ function TableBody(props) {
     <>
       <div
         onClick={() => handleClick(props)}
-        className="bg-amber-50 rounded-md p-1 tracking-wide mt-3 cursor-pointer hover:scale-105 animate-pulse hover:animate-none"
+        className="rounded-md p-2 tracking-wide mt-3 cursor-pointer shadow bg-white hover:scale-105"
       >
-        <div className="w-full items-center flex justify-center">
+        <div className="w-full items-center my-2 flex justify-center rounded-md">
           <Image
-            width={160}
-            height={170}
+            width={250}
+            height={190}
             objectFit="cover"
             src={props.img || defaultImage}
-            className="mx-auto"
+            className="mx-auto rounded-md"
             alt={props.title}
           />
         </div>

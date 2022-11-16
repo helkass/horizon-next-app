@@ -49,10 +49,14 @@ export default function Blog({ blogs }) {
                     </strong>
                   </Link>
                   <span className="text-xs text-gray-500 mt-1">
-                    writer : {blog.writer || "unknown"}
+                    {new Date(blog.createdAt).toDateString() || "unknown"}
                   </span>
+                  <p
+                    className="line-clamp-3"
+                    dangerouslySetInnerHTML={{ __html: blog.article }}
+                  />
                   <Link href={"/blog/" + blog._id.toString()}>
-                    <button className="px-3 py-1 text-sm text-gray-500 border border-yellow-200 mt-6 rounded justify-start hover:border-yellow-400 hover:bg-yellow-50 hover:text-yellow-700 w-max">
+                    <button className="px-3 py-1 text-sm text-yellow-600 border border-yellow-200 bg-yellow-200 mt-6 rounded justify-start w-max">
                       Read more
                     </button>
                   </Link>

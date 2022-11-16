@@ -1,33 +1,41 @@
 import { Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { BsFillCartFill } from "react-icons/bs";
+import { AiFillDelete } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
-import { remove } from "../redux/cartSlice";
+import { add, decreaseCart, getTotals, remove } from "../redux/cartSlice";
+import { useRouter } from "next/router";
 
 export default function Cart() {
   const dispatch = useDispatch();
-  const items = useSelector((state) => state.cart);
-  const [qty, setQty] = useState(1);
+  const cart = useSelector((state) => state.cart);
+  const router = useRouter();
 
-  const handleMinus = (e) => {
-    e.preventDefault();
-    if (qty <= 0) {
-      return null;
-    } else {
-      setQty(qty - 1);
-    }
+  useEffect(() => {
+    dispatch(getTotals());
+  }, [cart, dispatch]);
+
+  const handleMinus = (product, e) => {
+    dispatch(decreaseCart(product));
+  };
+  const handleIncrease = (product) => {
+    dispatch(add(product));
   };
 
   const handleRemove = (product) => {
     dispatch(remove(product._id));
+  };
+
+  const checkOuts = () => {
+    router.push("/product/order");
   };
   return (
     <Menu as="div" className="relative inline-block text-left z-40">
       <div>
         <Menu.Button className="relative inline-flex w-full justify-center rounded-md bg-yellow-100 px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
           <span className="rounded-full bg-yellow-300 absolute -top-2 -left-2 px-2">
-            {items.length}
+            {cart.cartTotalQuantity}
           </span>
           <BsFillCartFill size={20} />
         </Menu.Button>
@@ -50,13 +58,10 @@ export default function Cart() {
                     active ? "bg-yellow-50 bg-opacity-30" : ""
                   } group w-full items-center rounded-md justify-center px-2 py-2 text-sm cursor-default`}
                 >
-                  {items.length > 0 ? (
+                  {cart.cartItems.length > 0 ? (
                     <div>
-                      {items.map((product) => (
-                        <div
-                          key={product._id}
-                          className="flex w-full items-center gap-2"
-                        >
+                      {cart.cartItems.map((product, i) => (
+                        <div key={i} className="flex w-full items-center gap-2">
                           <div className="relative">
                             <Image
                               src={product.img}
@@ -68,44 +73,48 @@ export default function Cart() {
                           </div>
                           <div className="w-full">
                             <div className="flex justify-between">
-                              <p className="md:text-xl w-max mb-2 bg-yellow-100 rounded-md sm:px-2 px-1">
+                              <p className="md:text-xl w-max mb-2 lowercase bg-yellow-100 rounded-md sm:px-2 px-1">
                                 {product.title}
                               </p>
                               <button
                                 onClick={() => handleRemove(product)}
-                                className="bg-red-100 border border-red-400 text-red-700 rounded md:h-7 md:w-7 w-5 h-5"
+                                className="bg-red-100 border border-red-400 items-center flex justify-center text-red-700 rounded md:h-7 md:w-7 w-5 h-5"
                               >
-                                X
+                                <AiFillDelete />
                               </button>
                             </div>
                             <div className="flex justify-between">
-                              <div className="flex space-x-2">
-                                <p>size : </p>
-                                <p>{product.size} gr</p>
-                              </div>
+                              <p>Rp.{product.price}</p>
                               <div className="flex space-x-2 items-center">
                                 <button
                                   className="sm:h-6 w-5 h-5 sm:w-6  text-xl text-center items-center flex justify-center p-2 shadow-md"
-                                  onClick={handleMinus}
+                                  onClick={() => handleMinus(product)}
                                 >
                                   -
                                 </button>
-                                <span>{qty}</span>
+                                <span>{product.cartQuantity}</span>
                                 <button
                                   className="sm:h-6 w-5 h-5 sm:w-6  text-xl text-center items-center flex justify-center p-2 shadow-md"
-                                  onClick={(e) =>
-                                    setQty(qty + 1) + e.preventDefault()
-                                  }
+                                  onClick={() => handleIncrease(product)}
                                 >
                                   +
                                 </button>
                               </div>
-                              <p>Rp.{product.price * qty}</p>
+                              <span>
+                                Rp.{product.price * product.cartQuantity}
+                              </span>
                             </div>
                           </div>
                         </div>
                       ))}
-                      <button className="bg-green-50 text-green-700 border border-green-300 rounded-md px-3 cursor-pointer py-1 float-right my-3 mr-2">
+                      <div className="text-md my-3 flex justify-between font-semibold">
+                        <span> Total amount : </span>
+                        <span>Rp.{cart.cartTotalAmount}</span>
+                      </div>
+                      <button
+                        onClick={checkOuts}
+                        className="bg-green-50 text-green-700 border border-green-300 rounded-md px-3 cursor-pointer py-1 float-right my-3 mr-2"
+                      >
                         Order Now
                       </button>
                     </div>

@@ -6,7 +6,6 @@ import { FaBars } from "react-icons/fa";
 
 const link = [
   { href: "/", label: "Home" },
-  { href: "#menu", label: "Menu" },
   { href: "/galleries", label: "Gallery" },
   { href: "/product", label: "Products" },
   { href: "/blog", label: "Blog" },
@@ -19,11 +18,7 @@ const Navbar = () => {
   const changeColor = () => {
     if (window.scrollY >= 80) {
       setNavbar(true);
-    }
-    // if (window.scrollY >= 10) {
-    //   setNavbar(false);
-    // }
-    else {
+    } else {
       setNavbar(false);
     }
   };
@@ -34,8 +29,8 @@ const Navbar = () => {
     <nav
       className={
         navbar
-          ? "bg-amber-300 shadow-md text-amber-700 z-50 fixed w-full"
-          : "bg-amber-100 text-amber-700 z-50 fixed w-full"
+          ? "bg-amber-300 shadow-md text-amber-700 z-50 fixed w-screen"
+          : "bg-amber-100 text-amber-700 z-50 fixed w-screen"
       }
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

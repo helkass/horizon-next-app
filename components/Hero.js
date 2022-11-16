@@ -7,7 +7,7 @@ import BtnToProduct from "./BtnToProduct";
 
 function Hero() {
   return (
-    <section className="bg-primary">
+    <section className="bg-primary flex">
       <Container>
         <div className="flex">
           <div className="container md:mt-9 grid md:grid-cols-2 sm:mx-auto mx-3 z-10">

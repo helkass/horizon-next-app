@@ -5,49 +5,6 @@ import { useQuery } from "react-query";
 import { getGallerys } from "../libs/gallerys";
 import { Loading } from "../components/Loading";
 
-import image from "../fakeData/img/imgSec.jpg";
-
-const galleryData = [
-  {
-    id: 1,
-    img: image,
-    alt: "galq",
-  },
-  {
-    id: 2,
-    img: image,
-    alt: "galq",
-  },
-  {
-    id: 3,
-    img: image,
-    alt: "galq",
-  },
-  {
-    id: 4,
-    img: image,
-    alt: "galq",
-  },
-  {
-    id: 5,
-    img: image,
-    alt: "galq",
-  },
-  {
-    id: 6,
-    img: image,
-    alt: "galq",
-  },
-];
-
-// const URL = process.env.BASE_URL;
-// export async function getStaticProps() {
-//   const res = await fetch(`${URL}api/galleries`).then((res) => res.json());
-
-//   return {
-//     props: { gallerys: res },
-//   };
-// }
 const Gallery = () => {
   const { isLoading, isError, data, error } = useQuery(
     "galleries",

@@ -39,7 +39,7 @@ const DetailBlog = ({ blog }) => {
           <header className="text-center items-center my-6 space-x-2">
             {/* time published */}
             <p className="text-gray-700 text-opacity-70 text-xs">
-              Published January 13 2021
+              Published {new Date(blog.createdAt).toDateString()}
             </p>
             {/* title */}
             <p className="text-2xl font-semibold">{blog.title}</p>
@@ -49,15 +49,15 @@ const DetailBlog = ({ blog }) => {
             <Image
               src={blog.img || defaultImage}
               alt={blog.title}
-              height={300}
+              height={200}
               width={450}
               layout="responsive"
               objectFit="cover"
             />
           </div>
           {/* main content article */}
-          <div
-            className="md:px-10 px-2 mt-2"
+          <p
+            className="md:px-10 px-2 my-4 tracking-wide"
             dangerouslySetInnerHTML={{ __html: blog.article }}
           />
         </div>

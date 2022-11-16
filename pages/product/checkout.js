@@ -1,12 +1,32 @@
 import Container from "../../components/Container";
 import Link from "next/link";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
+const URL = process.env.BASE_URL;
 
-//form login for buyer
-//continue add product to checkout
+// export const getStaticPaths = async () => {
+//   const res = await fetch(`${URL}api/products`).then((r) => r.json());
 
+//   return {
+//     paths: res.map((product) => {
+//       return {
+//         params: { id: product._id.toString() },
+//       };
+//     }),
+//     fallback: false,
+//   };
+// };
+
+// export const getStaticProps = async ({}) => {
+//   const res = await fetch(
+//     `${URL}api/products/${params.id.replace(/\-/, "+")}`
+//   ).then((r) => r.json());
+//   return {
+//     props: { product: res },
+//   };
+// };
 const CheckOut = () => {
   const [error, setError] = useState(false);
   const [userName, setUserName] = useState("");
@@ -15,6 +35,7 @@ const CheckOut = () => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [orderNote, setOrderNote] = useState("");
+  const [datas, setDatas] = useState(null);
   // const [totalOrder, setTotalOrder] = useState(0);
   const router = useRouter();
   // order
@@ -28,33 +49,25 @@ const CheckOut = () => {
   let totalLarge = useRef(null);
   let total = useRef(null);
 
+  const subTotal = totalMedium.current.innerText + totalLarge.current.innerText;
   // get value from product page
   const {
-    query: {
-      name,
-      priceM,
-      priceL,
-      medium,
-      large,
-      totMedium,
-      totLarge,
-      totalOrder,
-    },
+    query: { id, qtyM, qtyL },
   } = router;
-  const props = {
-    name,
-    priceM,
-    priceL,
-    medium,
-    large,
-    totMedium,
-    totLarge,
-    totalOrder,
-  };
 
+  const props = { id, qtyM, qtyL };
+
+  const getData = async () => {
+    const { data } = await axios.get(`http://localhost:3000/api/products`);
+    setDatas(data);
+  };
+  useEffect(() => {
+    getData();
+    console.log();
+  }, []);
   function handleWhatsapp() {
     let urls = "https://web.whatsapp.com/send",
-      adminwa = "6285608017738"; //nomer admin
+      adminwa = "6283852742170"; //nomer admin
     // checkdevice
     if (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -89,6 +102,7 @@ const CheckOut = () => {
           </Link>
         </div>
         <form className="my-7 md:flex flex-col-1 gap-3">
+          {/* form customer */}
           <div className="flex flex-col w-full px-1 md:w-1/2">
             {error ? <ErrorMessage /> : ""}
             <h2
@@ -163,49 +177,56 @@ const CheckOut = () => {
               className="border-b font-medium p-1 mt-1 border-amber-900 border-opacity-60 border-l"
             />
           </div>
-          {/*  */}
+          {/* order product */}
           <div className=" flex flex-col md:w-1/2 w-full">
             <h2 className="rounded-md w-full border-b-2 bg-yellow-50 border-yellow-500 border-r text-yellow-600 text-xl px-4 py-2 max-h my-4">
               Your Order
             </h2>
-            <div className="border border-opacity-50 border-amber-900 px-1">
-              <div className="flex justify-between border-b-2 border-amber-900 p-2 my-2">
-                <p>Product</p>
-                <p>Sub Total</p>
-              </div>
-              <div className="p-2">
-                <p ref={productName} className="font-semibold">
-                  {props.name || "unknown"}
-                </p>
-                <div className="flex justify-between">
-                  <p>Medium :</p>
-                  <div className="flex space-x-1 justify-between">
-                    <p ref={priceMedium}>{props.priceM || 0}</p>
-                    <p ref={qtyMedium}>x {props.medium || 0}</p>
+            {datas
+              ?.filter((item) => item._id === props.id)
+              .map((obj, i) => (
+                <div
+                  key={i}
+                  className="border border-opacity-50 border-amber-900 px-1"
+                >
+                  <div className="flex justify-between border-b-2 border-amber-900 p-2 my-2">
+                    <p>Product</p>
+                    <p>Sub Total</p>
                   </div>
-                  <p ref={totalMedium}>{props.totMedium}</p>
-                </div>
-                <div className="flex flex-cols-3 justify-between">
-                  <p>Large</p>
-                  <div className="flex space-x-1 justify-between">
-                    <p ref={priceLarge}>{props.priceL || 0}</p>
-                    <p ref={qtyLarge}>x {props.large || 0}</p>
+                  <div className="p-2">
+                    <p ref={productName} className="font-semibold">
+                      {obj.title || "unknown"}
+                    </p>
+                    <div className="flex justify-between">
+                      <p>Medium :</p>
+                      <div className="flex space-x-1 justify-between">
+                        <p ref={priceMedium}>{obj.medium || 0}</p>
+                        <p ref={qtyMedium}>x {props.qtyM || 0}</p>
+                      </div>
+                      <p ref={totalMedium}>{obj.medium * props.qtyM}</p>
+                    </div>
+                    <div className="flex flex-cols-3 justify-between">
+                      <p>Large</p>
+                      <div className="flex space-x-1 justify-between">
+                        <p ref={priceLarge}>{obj.large || 0}</p>
+                        <p ref={qtyLarge}>x {props.qtyL || 0}</p>
+                      </div>
+                      <p ref={totalLarge}>{obj.large * props.qtyL}</p>
+                    </div>
                   </div>
-                  <p ref={totalLarge}>{props.totLarge}</p>
+                  <div className="flex justify-between border-t-2 border-b-2 border-amber-900 p-2">
+                    <p>Total : </p>
+                    <p ref={total}>{subTotal}</p>
+                  </div>
+                  <a
+                    onClick={handleWhatsapp}
+                    className="flex mx-auto w-max bg-yellow-100 hover:bg-yellow-200 text-yellow-700 px-4 py-2 rounded-lg my-8"
+                  >
+                    checkout
+                  </a>
+                  <p className="font-normal">Order by Whatsapp!</p>
                 </div>
-              </div>
-              <div className="flex justify-between border-t-2 border-b-2 border-amber-900 p-2">
-                <p>Total : </p>
-                <p ref={total}>{props.totalOrder}</p>
-              </div>
-              <a
-                onClick={handleWhatsapp}
-                className="flex mx-auto bg-yellow-100 hover:bg-yellow-200 text-yellow-700 px-4 py-2 rounded-lg my-8"
-              >
-                checkout
-              </a>
-              <p className="font-normal">Order by Whatsapp!</p>
-            </div>
+              ))}
           </div>
         </form>
       </main>

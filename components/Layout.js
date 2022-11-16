@@ -3,7 +3,7 @@ import Footer from "./Footer";
 
 const Layout = ({ children }) => {
   return (
-    <div className="w-full flex flex-col relative">
+    <div className="w-full flex flex-col">
       <Navbar />
       {children}
       <Footer />

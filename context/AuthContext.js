@@ -1,5 +1,4 @@
 import { createContext, useReducer, useEffect } from "react";
-import { getCookie } from "cookies-next";
 
 export const AuthContext = createContext();
 

@@ -15,5 +15,5 @@ module.exports = {
       flower: ["Indie Flower", "cursive"],
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/line-clamp")],
 };
