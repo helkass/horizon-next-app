@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Transition } from "@headlessui/react";
-import { BsFillTelephoneFill } from "react-icons/bs";
 import Link from "next/link";
 import { FaBars } from "react-icons/fa";
 
@@ -29,7 +28,7 @@ const Navbar = () => {
     <nav
       className={
         navbar
-          ? "bg-amber-300 shadow-md text-amber-700 z-50 fixed w-screen"
+          ? "bg-yellow-600 shadow-md text-white z-50 fixed w-screen"
           : "bg-amber-100 text-amber-700 z-50 fixed w-screen"
       }
     >
@@ -53,9 +52,21 @@ const Navbar = () => {
                 ))}
               </div>
             </div>
-            <div className="sm:flex gap-2 items-center hidden">
-              <BsFillTelephoneFill />
-              <p>08967258262</p>
+            <div className="sm:flex gap-3 items-center hidden mr-2">
+              <Link href="/customer/login">
+                <button
+                  className={
+                    navbar
+                      ? "border border-white px-4 py-1"
+                      : "border-yellow-600 border px-4 py-1"
+                  }
+                >
+                  Login
+                </button>
+              </Link>
+              <Link href="/customer/register">
+                <button>Register</button>
+              </Link>
             </div>
           </div>
           <div className="-mr-2 flex md:hidden">
