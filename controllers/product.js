@@ -1,5 +1,4 @@
 import Product from "../models/Product";
-const cloudinary = require("../utils/cloudinary");
 
 // GET http://localhost:3000/api/products
 // req all products
