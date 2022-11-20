@@ -6,9 +6,12 @@ import { AiFillDelete } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { add, decreaseCart, getTotals, remove } from "../redux/cartSlice";
 import { useRouter } from "next/router";
+import { useCusContext } from "../context/customerContext/useCusContext";
 
 export default function Cart() {
   const dispatch = useDispatch();
+  const { customer } = useCusContext();
+
   const cart = useSelector((state) => state.cart);
   const router = useRouter();
 
@@ -28,6 +31,8 @@ export default function Cart() {
   };
 
   const checkOuts = () => {
+    if (!customer) return router.push("/customer/login");
+
     router.push("/product/order");
   };
   return (

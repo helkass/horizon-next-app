@@ -344,14 +344,14 @@ function CoffeePacks(props) {
               onClick={() => handleClick(props)}
               className="opacity-50 bg-gray-200 rounded mt-2 py-2 text-gray-800 text-center w-full"
             >
-              Quick view
+              Preview
             </button>
             {/* add cart product */}
             <button
               onClick={() => handleAdd(props)}
               className="bg-green-100 rounded mt-2 py-2 text-green-800 border border-green-400 text-center w-full"
             >
-              Add to cart
+              Add cart
             </button>
           </div>
         </div>

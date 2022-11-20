@@ -22,7 +22,9 @@ export async function register(req, res) {
       province: req.body.province,
       profilePic: req.body.profilePic,
     });
-    Customer.create(newCustomer, function (err, data) {
+    Customer.create(newCustomer, function (data) {
+      const token = createToken(data._id);
+      setCookie("customer", token.toString());
       return res.status(200).json(data);
     });
   } catch (error) {
@@ -58,15 +60,17 @@ export async function getCustomer(req, res) {
 }
 // post api/customers/[customerId]
 export async function login(req, res) {
+  const { email, password } = req.body;
   try {
-    const customer = await Customer.findOne({ email: req.body.email });
+    const customer = await Customer.findOne({ email });
 
     if (!customer) {
       return res.status(401).json({ error: "wrong email!" });
     }
-    const validate = bcrypt.compare(req.body.password, customer.password);
+    const validate = bcrypt.compare(password, customer.password);
     !validate && res.status(404).json({ error: "wrong password!" });
-
+    const token = createToken(customer._id);
+    setCookie("customer", token.toString());
     res.status(200).json(customer);
   } catch (error) {
     res.status(500).json(error);

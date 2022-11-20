@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
 export default function AdminLogin() {
-  const { push } = useRouter();
+  const url = process.env.BASE_URL;
   const formReducer = (state, event) => {
     return {
       ...state,
@@ -25,7 +25,7 @@ export default function AdminLogin() {
   };
   const createAdmin = async () => {
     try {
-      await fetch("http://localhost:3000/api/admin", {
+      await fetch(`${url}api/admin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

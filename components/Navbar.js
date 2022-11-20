@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { Transition } from "@headlessui/react";
 import Link from "next/link";
 import { FaBars } from "react-icons/fa";
+import { useCusContext } from "../context/customerContext/useCusContext";
+import { useLogout } from "../context/customerContext/useLogout";
+import { useRouter } from "next/router";
 
 const link = [
   { href: "/", label: "Home" },
@@ -11,9 +14,15 @@ const link = [
   { href: "/contact", label: "Contact" },
 ];
 const Navbar = () => {
+  const { logout } = useLogout();
   const [isOpen, setIsOpen] = useState(false);
   const [navbar, setNavbar] = useState(false);
-
+  const { customer } = useCusContext();
+  const router = useRouter();
+  const handleLogOut = () => {
+    logout();
+    router.push("/");
+  };
   const changeColor = () => {
     if (window.scrollY >= 80) {
       setNavbar(true);
@@ -45,29 +54,51 @@ const Navbar = () => {
               <div className="flex items-baseline space-x-4">
                 {link.map((link, i) => (
                   <Link href={link.href} key={i}>
-                    <a className=" hover:border-b-2 border-amber-600 px-3 py-2 text-sm font-medium">
+                    <a
+                      className={
+                        navbar
+                          ? "border-b-2 border-amber-600 hover:border-white px-3 py-2 text-sm font-medium"
+                          : "border-b-2 hover:border-amber-600 border-amber-100 px-3 py-2 text-sm font-medium"
+                      }
+                    >
                       {link.label}
                     </a>
                   </Link>
                 ))}
               </div>
             </div>
-            <div className="sm:flex gap-3 items-center hidden mr-2">
-              <Link href="/customer/login">
+            {customer ? (
+              <div className="flex items-center gap-1">
+                <span className="text-sm">{customer.fullname}</span>
                 <button
+                  onClick={handleLogOut}
                   className={
                     navbar
-                      ? "border border-white px-4 py-1"
-                      : "border-yellow-600 border px-4 py-1"
+                      ? "bg-yellow-300 px-2 py-1 rounded text-amber-800"
+                      : "bg-yellow-300 px-2 py-1 rounded"
                   }
                 >
-                  Login
+                  Log out
                 </button>
-              </Link>
-              <Link href="/customer/register">
-                <button>Register</button>
-              </Link>
-            </div>
+              </div>
+            ) : (
+              <div className="sm:flex gap-3 items-center hidden mr-2">
+                <Link href="/customer/login">
+                  <button className="px-4 py-1">Login</button>
+                </Link>
+                <Link href="/customer/register">
+                  <button
+                    className={
+                      navbar
+                        ? "bg-yellow-100 px-3 py-1 rounded text-amber-800"
+                        : "bg-yellow-400 px-3 py-1 rounded text-white"
+                    }
+                  >
+                    Register
+                  </button>
+                </Link>
+              </div>
+            )}
           </div>
           <div className="-mr-2 flex md:hidden">
             <button

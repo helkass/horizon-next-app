@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-function BtnToProduct({ value, bg, text }) {
+function BtnToProduct({ value, bg }) {
   return (
     <Link href="/product">
       <button

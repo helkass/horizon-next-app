@@ -20,7 +20,7 @@ function Hero() {
                 coffee.
               </p>
               <div className="relative flex md:mt-9 mt-16 w-full px-2 md:w-8/12 md:px-0 justify-center md:justify-between">
-                <BtnToProduct value="Get Your Coffee" bg="amber-100" />
+                <BtnToProduct value="Get Coffee" bg="amber-100" />
                 <button className="hover:bg-amber-100 rounded-md hover:shadow-md px-2 md:px-8 py-3 md:w-max">
                   Reservation
                 </button>

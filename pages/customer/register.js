@@ -1,16 +1,42 @@
 // pages for customer
-
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Layout from "../../components/Layout";
 import logo from "../../fakeData/img/login-logo.png";
+import { useRouter } from "next/router";
+import { setCookie } from "cookies-next";
+import { useCusContext } from "../../context/customerContext/useCusContext";
 
 const Register = () => {
-  const handleSubmit = (e) => {
+  const router = useRouter();
+  const { dispatch } = useCusContext();
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
-    console.log(Object.fromEntries(data.entries()));
+    const form = Object.fromEntries(data.entries());
+    try {
+      const customer = await fetch(
+        `http://localhost:3000/api/customers/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        }
+      );
+      if (customer.ok) {
+        // save the admin in local storage
+        localStorage.setItem("customer", JSON.stringify(form));
+        setCookie("customer", JSON.stringify(data));
+        // update the auth context
+        dispatch({ type: "REGISTER", payload: data });
+        router.push("/product");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Layout>

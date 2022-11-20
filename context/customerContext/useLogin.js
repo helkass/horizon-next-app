@@ -1,26 +1,26 @@
 import { useRouter } from "next/router";
-import { useAuthContext } from "./useAuthContext";
+import { useCusContext } from "./useCusContext";
 import { setCookie } from "cookies-next";
 export const useLogin = () => {
-  const { dispatch } = useAuthContext();
+  const { dispatch } = useCusContext();
   const router = useRouter();
-  const url = process.env.BASE_URL;
+  const url = process.env.URL;
   const login = async (email, password) => {
-    const admin = await fetch(`http://localhost:3000/api/admin`, {
+    const customer = await fetch(`http://localhost:3000/api/customers`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
     });
-    const data = await admin.json();
-    if (admin.ok) {
+    const data = await customer.json();
+    if (customer.ok) {
       // save the admin in local storage
-      localStorage.setItem("admin", JSON.stringify(data));
-      setCookie("admin", JSON.stringify(data));
+      localStorage.setItem("customer", JSON.stringify(data));
+      setCookie("customer", JSON.stringify(data));
       // update the auth context
       dispatch({ type: "LOGIN", payload: data });
-      router.push("/admin");
+      router.push("/product");
     }
   };
   return { login };
