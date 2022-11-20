@@ -38,7 +38,7 @@ export default function AdminLogin() {
         <div className="mx-auto bg-yellow-50 bg-opacity-50 text-left md:w-4/12 sm:w-9/12 w-11/12 md:mt-12 mt-36 rounded-md p-12">
           <form onSubmit={handleSubmit}>
             <label htmlFor="email" name="email" className="my-4">
-              email
+              Email
             </label>
             <input
               name="email"
@@ -46,13 +46,13 @@ export default function AdminLogin() {
               required
               onChange={(e) => setEmail(e.target.value)}
               // value={email}
-              className="w-full border-amber-500 border drop-shadow-sm rounded-md h-8 mb-3 px-2 font-normal"
+              className="w-full border-amber-500 border drop-shadow-sm rounded-md h-8 mb-3 px-2 font-normal focus:outline-none"
             />
             <label htmlFor="password" name="password" className="my-4">
               Password
             </label>
             <input
-              className="w-full border-amber-500 border drop-shadow-sm rounded-md h-8 px-2 font-normal"
+              className="w-full border-amber-500 border drop-shadow-sm rounded-md h-8 px-2 font-normal focus:outline-none"
               type="password"
               name="password"
               required

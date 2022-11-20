@@ -6,7 +6,7 @@ import { useAuthContext } from "../../context/useAuthContext";
 const Header = () => {
   const { admin } = useAuthContext();
   return (
-    <header className="bg-amber-300 w-screen">
+    <header className="bg-amber-300 max-w-[2340px]">
       <div className="flex font-medium justify-between w-full items-center md:py-4 py-2 md:px-7 px-4">
         <Link href="/">
           <h1 className="md:text-2xl text-2xl font-txthead cursor-pointer">

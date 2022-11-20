@@ -3,89 +3,75 @@ import { MdOutlineArticle } from "react-icons/md";
 import { BsImage } from "react-icons/bs";
 import { TbCup } from "react-icons/tb";
 import { RiRedPacketLine } from "react-icons/ri";
+import { FaUserFriends } from "react-icons/fa";
 import { useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
-
-const icons = [TbCup, RiRedPacketLine, BsImage, MdOutlineArticle];
-
-const datas = [
-  {
-    name: "Cups",
-    total: 50,
-  },
-  {
-    name: "Packs",
-    total: 50,
-  },
-  {
-    name: "galleries",
-    total: 50,
-  },
-  {
-    name: "Blogs",
-    total: 4,
-  },
-];
-function Card() {
-  return datas.map((data, index) => {
-    const Icons = icons[index];
-    return (
-      <div
-        key={index}
-        className="md:text-xl flex justify-between md:p-6 sm:p-4 p-3 rounded md:h-32 bg-amber-50 border border-amber-500 mx-auto text-amber-900 capitalize font-semibold md:w-3/12 w-4/12"
-      >
-        <div className="flex gap-2 sm:mb-3 mb-1 flex-col font-flower">
-          <span>{data.name}</span>
-          <p className="md:text-2xl text-xl">{data.total}</p>
-        </div>
-        <Icons size={40} />
-      </div>
-    );
-  });
-}
-
-// table history order
-function HistoryTable() {
-  return (
-    <section className="bg-slate-100 my-4 px-1 rounded">
-      <h1 className="font-semibold my-2">History Ordering</h1>
-      {/* read data only */}
-      <table className="w-full border border-amber-900 opacity-80 text-xs sm:text-sm md:text-md">
-        <thead className="border-b-2 border-amber-900 text-center">
-          <tr>
-            <th>Name</th>
-            <th>Products</th>
-            <th>Total</th>
-            <th>Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="border-b border-amber-900 min-h-12 md:text-center">
-            <td>Maria Anders</td>
-            <td>Vietnam drip, Arabica Gayo Aceh</td>
-            <td>50000</td>
-            <td>23 Jan 2022</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  );
-}
+import { getGallerys } from "../../libs/gallerys";
+import { useQuery } from "react-query";
+import { useState } from "react";
+import { getProducts } from "../../libs/products";
+import { getCoffeePacks } from "../../libs/coffeePacks";
+import { getBlogs } from "../../libs/blogs";
+import { getCustomers } from "../../libs/customer";
 
 export default function Dashboard() {
   const cookie = getCookie("admin");
   const router = useRouter();
+
+  const [gallery, setGallery] = useState([]);
+  const [cups, setCups] = useState([]);
+  const [packs, setPacks] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const [customers, setCustomers] = useState([]);
+
   useEffect(() => {
     if (cookie == undefined) {
       router.push("/login");
     }
-  });
+    const fetchingData = async () => {
+      let gal = await getGallerys();
+      setGallery(gal);
+
+      let cups = await getProducts();
+      setCups(cups);
+
+      let packs = await getCoffeePacks();
+      setPacks(packs);
+
+      let blogs = await getBlogs();
+      setBlogs(blogs);
+
+      let customer = await getCustomers();
+      setCustomers(customer);
+    };
+    fetchingData();
+  }, [cookie, router]);
   return (
     <Layout>
       <div className="flex flex-col w-full">
-        <div className="flex md:gap-4 gap-1 px-3 w-full">
-          <Card />
+        <div className="flex flex-wrap md:gap-4 gap-1 px-3 w-full">
+          <Card total={cups.length} name="Cups" icon={<TbCup size={25} />} />
+          <Card
+            total={packs.length}
+            name="Packs"
+            icon={<RiRedPacketLine size={25} />}
+          />
+          <Card
+            total={gallery.length}
+            name="Galleries"
+            icon={<BsImage size={25} />}
+          />
+          <Card
+            total={blogs.length}
+            name="Blogs"
+            icon={<MdOutlineArticle size={25} />}
+          />
+          <Card
+            total={customers.length}
+            name="Customers"
+            icon={<FaUserFriends size={25} />}
+          />
         </div>
         <HistoryTable />
       </div>
@@ -93,17 +79,43 @@ export default function Dashboard() {
   );
 }
 
-// export const getServerSideProps = (ctx) => {
-//   const myCookie = ctx.req?.cookie || "";
+function Card({ name, icon, total }) {
+  return (
+    <div className="px-3 py-1 md:w-48 sm:h-20 h-16 flex flex-col bg-yellow-50 border rounded-md border-yellow-400">
+      <div className="flex gap-2 text-[1.1rem] md:text-xl items-center justify-between">
+        <span>{name}</span>
+        <span>{icon}</span>
+      </div>
+      <span className="text-xl">{total}</span>
+    </div>
+  );
+}
 
-// const orderHistory = await axios.get("http://localhost:3000/api/products");
-// if (myCookie.token !== process.env.TOKEN) {
-//   return {
-//     redirect: {
-//       destination: "/admin/login",
-//       permanent: false,
-//     },
-//   };
-// }
-//   return true;
-// };
+// table history order
+function HistoryTable() {
+  return (
+    <section className="my-4 px-1 rounded max-w-[1340px]">
+      <h1 className="text-xl my-2">History Ordering</h1>
+      {/* head */}
+      <div className="flex gap-1">
+        <span className="py-1 pl-2 w-3/12 rounded bg-yellow-50">Name</span>
+        <span className="text-center py-1 flex-1 rounded bg-yellow-50">
+          Product
+        </span>
+        <span className="text-center py-1 w-2/12 rounded bg-yellow-50">
+          Price
+        </span>
+        <span className="text-center py-1 w-2/12 rounded bg-yellow-50">
+          Date
+        </span>
+      </div>
+      {/* main ordering data */}
+      <div className="flex gap-1 border-b my-1 md:text-md sm:text-sm text-xs">
+        <span className="py-1 pl-2 w-3/12 rounded">Name</span>
+        <span className="text-center py-1 flex-1 rounded">Product</span>
+        <span className="text-center py-1 w-2/12 rounded">Price</span>
+        <span className="text-center py-1 w-2/12 rounded">Date</span>
+      </div>
+    </section>
+  );
+}
