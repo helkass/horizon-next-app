@@ -5,40 +5,15 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import logo from "../../fakeData/img/login-logo.png";
-import { setCookie } from "cookies-next";
-import { useCusContext } from "../../context/customerContext/useCusContext";
-import { useRouter } from "next/router";
 import { useLogin } from "../../context/customerContext/useLogin";
 
 const Login = () => {
-  const router = useRouter();
-  const { dispatch } = useCusContext();
   const { login } = useLogin();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     await login(email, password);
-    // try {
-    //   const customer = await fetch(`http://localhost:3000/api/customers`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ email, password }),
-    //   });
-    //   const data = customer.json();
-    //   if (customer.ok) {
-    //     // save the admin in local storage
-    //     localStorage.setItem("customer", JSON.stringify(data._id));
-    //     setCookie("customer", JSON.stringify(data._id));
-    //     // update the auth context
-    //     dispatch({ type: "LOGIN", payload: customer });
-    //     router.push("/product");
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
   return (
     <Layout>
@@ -116,24 +91,5 @@ const Login = () => {
     </Layout>
   );
 };
-
-function Input({ name, type }) {
-  return (
-    <div className="mb-6">
-      <label
-        className="block text-gray-700 text-sm font-bold mb-2"
-        htmlFor={name}
-      >
-        {name}
-      </label>
-      <input
-        required
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:border-yellow-400 focus:shadow-outline"
-        id={name}
-        type={type}
-      />
-    </div>
-  );
-}
 
 export default Login;

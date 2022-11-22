@@ -1,9 +1,9 @@
-import Container from "./Container";
+import Container from "../Container";
 import Link from "next/link";
 import Image from "next/image";
 import { useQuery } from "react-query";
-import { getGallerys } from "../libs/gallerys";
-import { Loading } from "../components/Loading";
+import { getGallerys } from "../../libs/gallerys";
+import { Loading } from "../Loading";
 
 const Gallery = () => {
   const { isLoading, isError, data, error } = useQuery(

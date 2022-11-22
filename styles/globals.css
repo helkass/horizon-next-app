@@ -6,13 +6,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Inspiration&display=swap");
 
 /* global fonts */
-@import url("https://fonts.googleapis.com/css2?family=Merriweather&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inria+Sans&display=swap");
 
 html,
 body {
   scroll-behavior: smooth;
-  font-family: "Merriweather", serif;
+  font-family: "Inria Sans", sans-serif;
 }
 
 /* slide left right */

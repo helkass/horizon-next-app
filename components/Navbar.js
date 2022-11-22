@@ -57,7 +57,7 @@ const Navbar = () => {
                     <a
                       className={
                         navbar
-                          ? "border-b-2 border-amber-600 hover:border-white px-3 py-2 text-sm font-medium"
+                          ? "border-b-2 border-yellow-600 hover:border-white px-3 py-2 text-sm font-medium"
                           : "border-b-2 hover:border-amber-600 border-amber-100 px-3 py-2 text-sm font-medium"
                       }
                     >

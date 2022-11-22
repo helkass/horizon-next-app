@@ -1,13 +1,13 @@
 import React from "react";
 import Image from "next/image";
 
-import Container from "./Container";
-import logo from "../fakeData/img/logo.png";
-import BtnToProduct from "./BtnToProduct";
+import Container from "../Container";
+import logo from "../../fakeData/img/logo.png";
+import BtnToProduct from "../BtnToProduct";
 
 function Hero() {
   return (
-    <section className="bg-primary flex">
+    <section className="flex">
       <Container>
         <div className="flex">
           <div className="container md:mt-9 grid md:grid-cols-2 sm:mx-auto mx-3 z-10">

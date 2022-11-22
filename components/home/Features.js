@@ -1,8 +1,8 @@
-import Container from "./Container";
+import Container from "../Container";
 import { FaMusic } from "react-icons/fa";
 import { ImConnection, ImFilm } from "react-icons/im";
-import logoBloob from "../fakeData/img/logoAndBloob.png";
-import BtnToProduct from "./BtnToProduct";
+import logoBloob from "../../fakeData/img/logoAndBloob.png";
+import BtnToProduct from "../BtnToProduct";
 
 import Image from "next/image";
 

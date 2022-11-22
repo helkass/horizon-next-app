@@ -1,10 +1,10 @@
 import Head from "next/head";
-import Features from "../components/Features";
-import Gallery from "../components/Gallery";
+import Features from "../components/home/Features";
+import Gallery from "../components/home/Gallery";
 // import Image from "next/image";
-import Hero from "../components/Hero";
+import Hero from "../components/home/Hero";
 import Layout from "../components/Layout";
-import Reviews from "../components/Reviews";
+import Reviews from "../components/home/Reviews";
 
 export default function Home() {
   return (

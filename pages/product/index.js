@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState, Fragment, useRef } from "react";
+import { useState, Fragment } from "react";
 import { Loading } from "../../components/Loading";
 import Layout from "../../components/Layout";
 import Container from "../../components/Container";
@@ -94,13 +94,14 @@ function BottleCups(props) {
   };
 
   const sendProps = (obj) => {
-    console.log(obj._id);
+    let total = obj.medium * countMedium + obj.large * countLarge;
     Router.push({
-      pathname: "/product/checkout",
+      pathname: "/product/whatsapp",
       query: {
         id: obj._id,
         qtyM: countMedium,
         qtyL: countLarge,
+        total,
       },
     });
   };

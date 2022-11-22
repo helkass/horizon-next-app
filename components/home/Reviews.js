@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
-import Container from "./Container";
-import TakeOut from "./TakeOut";
+import Container from "../Container";
+import TakeOut from "../TakeOut";
 import { Disclosure } from "@headlessui/react";
 import { AiOutlineDown } from "react-icons/ai";
 

@@ -1,16 +1,19 @@
 // pages for customer
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import logo from "../../fakeData/img/login-logo.png";
 import { useRouter } from "next/router";
 import { setCookie } from "cookies-next";
 import { useCusContext } from "../../context/customerContext/useCusContext";
+import { InputRegister } from "../../components/Form";
+import Bug from "../../components/Bug";
 
 const Register = () => {
   const router = useRouter();
   const { dispatch } = useCusContext();
+  const [error, setError] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
@@ -35,7 +38,9 @@ const Register = () => {
         router.push("/product");
       }
     } catch (error) {
+      setError(true);
       console.log(error);
+      setTimeout(() => setError(false), 5000);
     }
   };
   return (
@@ -57,22 +62,23 @@ const Register = () => {
             <h2 className="text-2xl text-center font-flower my-4 sm:my-2">
               Welcome!
             </h2>
+            {error ? <Bug /> : <></>}
             <form
               onSubmit={handleSubmit}
               className="bg-white rounded px-8 pt-6 pb-8 mb-4"
             >
               <div className="mb-4 space-y-2">
-                <Input name="fullname" className="w-full" />
+                <InputRegister name="fullname" className="w-full" />
                 <div className="flex space-x-2">
-                  <Input name="phone" />
-                  <Input name="email" type="email" />
+                  <InputRegister name="phone" />
+                  <InputRegister name="email" type="email" />
                 </div>
-                <Input name="address" className="w-full" />
+                <InputRegister name="address" className="w-full" />
                 <div className="flex space-x-2">
-                  <Input name="city" />
-                  <Input name="province" />
+                  <InputRegister name="city" />
+                  <InputRegister name="province" />
                 </div>
-                <Input name="password" className="w-1/2" />
+                <InputRegister name="password" className="w-1/2" />
               </div>
               <div className="flex items-center justify-center">
                 <button
@@ -97,21 +103,5 @@ const Register = () => {
     </Layout>
   );
 };
-
-function Input({ name, className, type }) {
-  return (
-    <>
-      <div className="flex flex-col">
-        <label htmlFor={name}>{name}</label>
-        <input
-          type={type}
-          name={name}
-          className={`${className} shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-yellow-400 focus:shadow-outline`}
-          required
-        />
-      </div>
-    </>
-  );
-}
 
 export default Register;
