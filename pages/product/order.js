@@ -3,34 +3,61 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { MdOutlinePayment } from "react-icons/md";
 import { AiOutlineExclamationCircle, AiFillShopping } from "react-icons/ai";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Container from "../../components/Container";
 
 export default function Order() {
   const cart = useSelector((state) => state.cart);
+  const [data, setData] = useState([]);
+  const [customerId, setCustomerId] = useState("");
+  const [carts, setCarts] = useState([]);
+  // post data to DB Orders
   const [form, setForm] = useState({
-    firstname: "",
-    lastname: "",
-    address: "",
-    city: "",
-    postalcode: "",
+    customerId: "",
+    products: [
+      {
+        productId: "",
+        quantity: 0,
+      },
+    ],
+    amount: 0,
     payment: "",
   });
+  useEffect(() => {
+    const local = JSON.parse(localStorage.getItem("customer"));
+    const getLocalStorage = JSON.parse(localStorage.getItem("cart"));
+    setCarts(getLocalStorage);
+    setCustomerId(local._id);
 
-  const onChange = (e) => {
-    const { value, name, checked, type } = e.target;
+    async function getData() {
+      const response = await fetch(
+        `http://localhost:3000/api/customers/${local._id}`
+      ).then((res) => res.json());
+      setData(response);
+    }
 
-    setForm((state) => ({
-      ...state,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
+    getData();
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("form : ", { ...form });
+    const data = new FormData(e.target);
+    const dt = Object.fromEntries(data.entries());
+
+    setForm({
+      customerId: customerId,
+      products: carts.map((cart) => ({
+        productId: cart._id,
+        quantity: cart.cartQuantity,
+      })),
+      amount: dt.amount,
+      payment: dt.payment,
+    });
+    console.log(form);
   };
+
   return (
     <Layout>
       <main className="mt-20">
@@ -55,8 +82,21 @@ export default function Order() {
                       />
                     </div>
                     <div className="flex flex-col">
-                      <p className="text-md font-flower">{data.title}</p>
-                      <p className=" text-gray-600">Rp.{data.price}</p>
+                      <input
+                        className="text-md font-flower focus:outline-none"
+                        readOnly
+                        name={data.title}
+                        defaultValue={data.title}
+                      />
+                      <div className="flex">
+                        <label>Rp.</label>
+                        <input
+                          name={data.price}
+                          readOnly
+                          className=" text-gray-600 focus:outline-none"
+                          defaultValue={data.price}
+                        />
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -65,61 +105,75 @@ export default function Order() {
                     <span>Shipping</span>
                     <span>Rp.3000</span>
                   </div>
-                  <div className="flex justify-between mt-7 text-xl">
+                  <div className="flex justify-between w-full mt-7 text-xl">
                     <span>Total : </span>
-                    <span>Rp.{cart.cartTotalAmount}</span>
+                    <div className="flex justify-evenly">
+                      <label>Rp.</label>
+                      <input
+                        readOnly
+                        name="amount"
+                        className="text-end w-24 focus:outline-none"
+                        defaultValue={cart.cartTotalAmount}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
               {/* form */}
-              <div className="flex flex-col gap-2 sm:w-7/12 md:p-10 md:w-full sm:p-8 p-4 space-y-6">
+              <div className="flex flex-col gap-2 text-gray-500 text-sm sm:w-7/12 md:p-10 md:w-full sm:p-8 p-4 space-y-6">
                 <div className="flex sm:gap-2 gap-3 sm:flex-row flex-col w-8/12">
                   <input
                     type="text"
-                    name="firstname"
-                    onChange={onChange}
-                    value={form.firstname}
-                    required
+                    name="fullname"
+                    defaultValue={data.fullname}
+                    readOnly
                     className="shadow px-3 py-2 sm:w-1/2 focus:outline-none"
-                    placeholder="firts name..."
                   />
                   <input
-                    required
                     type="text"
-                    onChange={onChange}
-                    value={form.lastname}
-                    name="lastname"
+                    name="phone"
+                    value={data.phone}
+                    readOnly
                     className="shadow px-3 py-2 sm:w-1/2 focus:outline-none"
-                    placeholder="last name..."
                   />
                 </div>
                 <input
                   type="text"
-                  required
-                  onChange={onChange}
-                  value={form.address}
+                  value={data.address}
                   name="address"
+                  readOnly
                   className="shadow px-3 py-2 w-full focus:outline-none min-h-26"
-                  placeholder="address.."
                 />
                 <div className="flex gap-2 sm:flex-row flex-col w-1/2">
                   <input
                     type="text"
                     name="city"
-                    onChange={onChange}
-                    value={form.city}
-                    required
+                    readOnly
+                    value={data.city}
                     className="shadow px-3 py-2 sm:w-1/2 focus:outline-none"
-                    placeholder="city"
                   />
                   <input
-                    required
+                    type="text"
+                    name="province"
+                    readOnly
+                    value={data.province}
+                    className="shadow px-3 py-2 sm:w-1/2 focus:outline-none"
+                  />
+                </div>
+                <div className="flex gap-2 sm:flex-row flex-col w-1/2">
+                  <input
+                    type="text"
+                    name="email"
+                    readOnly
+                    value={data.email}
+                    className="shadow px-3 py-2 sm:w-1/2 focus:outline-none"
+                  />
+                  <input
                     type="text"
                     name="postalcode"
-                    value={form.postalcode}
-                    onChange={onChange}
+                    readOnly
+                    value={data.postalcode}
                     className="shadow px-3 py-2 sm:w-1/2 focus:outline-none"
-                    placeholder="Postal code"
                   />
                 </div>
                 {/* payment */}
@@ -134,9 +188,8 @@ export default function Order() {
                     {/* dana payment */}
                     <div className="flex items-center">
                       <input
-                        type="radio"
-                        value="dana"
-                        onChange={onChange}
+                        type="text"
+                        defaultValue="gopay"
                         name="payment"
                         className="w-4 h-4 bg-gray-100 border-gray-300 focus:ring-none dark:focus:ring-yellow-600 dark:ring-offset-gray-500 dark:bg-gray-700 dark:border-gray-600"
                       />
@@ -144,23 +197,7 @@ export default function Order() {
                         htmlFor="dana"
                         className="ml-2 font-medium text-gray-900 dark:text-gray-300"
                       >
-                        Dana
-                      </label>
-                    </div>
-                    {/* ovo payment */}
-                    <div className="flex items-center">
-                      <input
-                        type="radio"
-                        value="ovo"
-                        onChange={onChange}
-                        name="payment"
-                        className="w-4 h-4 bg-gray-100 border-gray-300 focus:ring-none dark:focus:ring-yellow-600 dark:ring-offset-gray-500 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="ovo"
-                        className="ml-2 font-medium text-gray-900 dark:text-gray-300"
-                      >
-                        OVO
+                        Gopay
                       </label>
                     </div>
                   </div>

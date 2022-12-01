@@ -9,7 +9,7 @@ export const Form = ({ name, onChange }) => {
         onChange={onChange}
         type="text"
         name={name}
-        className="focus:outline-none focus:border-yellow-200 focus:border-2 focus:ring-yellow-200 border-b font-medium p-1 mt-1 border-amber-900 border-opacity-60 border-l"
+        className="focus:outline-none font-medium p-2 mt-1 rounded-md"
       />
     </>
   );
@@ -19,7 +19,7 @@ export const Form = ({ name, onChange }) => {
 export const InputCalculate = ({ qty, name, defaultValue }) => {
   let subTotal = qty * defaultValue;
   return (
-    <div className="flex justify-between text-sm">
+    <div className="flex justify-between text-sm text-gray-500">
       <span>{name}</span>
       <div className="space-x-1">
         Rp.
@@ -50,5 +50,20 @@ export const InputRegister = ({ name, className, type }) => {
         />
       </div>
     </>
+  );
+};
+
+export const DefaultInput = ({ name, onChange, defaultValue, label }) => {
+  return (
+    <div className="grid w-full">
+      <label className="text-gray-600">{label}</label>
+      <input
+        defaultValue={defaultValue}
+        name={name}
+        id={name}
+        onChange={onChange}
+        className="focus:outline-none w-full font-medium p-2 mt-1 border border-yellow-300 rounded-md"
+      />
+    </div>
   );
 };

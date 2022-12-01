@@ -1,5 +1,9 @@
 import db from "../../../utils/db";
-import { deleteCustomer, getCustomer } from "../../../controllers/customers";
+import {
+  deleteCustomer,
+  getCustomer,
+  updateCustomer,
+} from "../../../controllers/customers";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -10,6 +14,9 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       getCustomer(req, res);
+      break;
+    case "PUT":
+      updateCustomer(req, res);
       break;
     case "DELETE":
       deleteCustomer(req, res);

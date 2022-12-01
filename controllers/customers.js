@@ -92,3 +92,17 @@ export async function deleteCustomer(req, res) {
     res.status(404).json({ error: "Error Deteleting The Product" });
   }
 }
+
+// PUT http://localhost:3000/api/products
+export async function updateCustomer(req, res) {
+  try {
+    const { customerId } = req.query;
+    const formData = req.body;
+    if (customerId && formData) {
+      const customer = await Customer.findByIdAndUpdate(customerId, formData);
+      res.status(200).json("data updated : ", customer);
+    }
+  } catch (error) {
+    return res.status(404).json({ error: "error while updating data" });
+  }
+}

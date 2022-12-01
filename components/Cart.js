@@ -1,6 +1,6 @@
 import { Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 import { BsFillCartFill } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";

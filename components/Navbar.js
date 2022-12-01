@@ -37,7 +37,7 @@ const Navbar = () => {
     <nav
       className={
         navbar
-          ? "bg-yellow-600 shadow-md text-white z-50 fixed w-screen"
+          ? "bg-yellow-50 bg-opacity-70 backdrop-blur-sm shadow-md text-amber-800 z-50 fixed w-screen"
           : "bg-amber-100 text-amber-700 z-50 fixed w-screen"
       }
     >
@@ -57,7 +57,7 @@ const Navbar = () => {
                     <a
                       className={
                         navbar
-                          ? "border-b-2 border-yellow-600 hover:border-white px-3 py-2 text-sm font-medium"
+                          ? "border-b-2 border-yellow-50 hover:border-amber-600 px-3 py-2 text-sm font-medium"
                           : "border-b-2 hover:border-amber-600 border-amber-100 px-3 py-2 text-sm font-medium"
                       }
                     >
@@ -69,7 +69,11 @@ const Navbar = () => {
             </div>
             {customer ? (
               <div className="flex items-center gap-1">
-                <span className="text-sm">{customer.fullname}</span>
+                <Link href={`/customer/${customer._id}`}>
+                  <span className="text-sm cursor-pointer">
+                    {customer.fullname}
+                  </span>
+                </Link>
                 <button
                   onClick={handleLogOut}
                   className={
